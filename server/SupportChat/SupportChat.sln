@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.SharedKernel", "SupportChat.SharedKernel\SupportChat.SharedKernel.csproj", "{938D06A4-BF76-4A6E-A0A8-C0FDD5683EAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.BackgroundService", "SupportChat.BackgroundService\SupportChat.BackgroundService.csproj", "{AEBB94AB-C067-422A-B7FE-A2364AB93E1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{938D06A4-BF76-4A6E-A0A8-C0FDD5683EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938D06A4-BF76-4A6E-A0A8-C0FDD5683EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{938D06A4-BF76-4A6E-A0A8-C0FDD5683EAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEBB94AB-C067-422A-B7FE-A2364AB93E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBB94AB-C067-422A-B7FE-A2364AB93E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBB94AB-C067-422A-B7FE-A2364AB93E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBB94AB-C067-422A-B7FE-A2364AB93E1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
