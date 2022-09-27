@@ -5,7 +5,7 @@ using SupportChat.Core.Services;
 namespace SupportChat.Api.Controllers;
 
 [ApiController]
-public class ChatController : Controller
+public class ChatController : ControllerBase
 {
     private readonly MessageService messageService;
 
@@ -15,7 +15,7 @@ public class ChatController : Controller
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Message>> Index()
+    public async Task<IEnumerable<Message>> GetMessage()
     {
         return await messageService.GetMessageHistoryAsync();
     }
