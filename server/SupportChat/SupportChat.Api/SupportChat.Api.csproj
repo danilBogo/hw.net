@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+      <ProjectReference Include="..\SupportChat.SharedKernel\SupportChat.SharedKernel.csproj" />
       <ProjectReference Include="..\SupportChat.Core\SupportChat.Core.csproj" />
       <ProjectReference Include="..\SupportChat.Infrastructure\SupportChat.Infrastructure.csproj" />
     </ItemGroup>
