@@ -14,7 +14,7 @@ public class RabbitMqService : IRabbitMqService
     private readonly string _queueName;
 
     public RabbitMqService(
-        string hostName = "localhost", 
+        string hostName = "rabbit-mq", 
         int port = 5672, 
         string username = "guest",
         string password = "guest",

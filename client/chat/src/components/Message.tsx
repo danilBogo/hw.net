@@ -15,7 +15,8 @@ function Message() {
 
     async function sendMessage() {
         try {
-            await channel.current!.basicPublish("amq.fanout", "", msg, { contentType: "text/plain" })
+            await channel.current!.basicPublish("amq.fanout", "", msg, 
+                { contentType: "text/plain" })
         } catch (err) {
             console.error("Error", err)
         }
@@ -45,6 +46,7 @@ function Message() {
             }
             try {
                 // console.log(body);
+                console.log("ебать здарова");
                 console.log(JSON.parse(body));
             } catch (e) {
                 console.error('Could not parse received message', e);
@@ -66,7 +68,6 @@ function Message() {
             {
                 data?.map((value) =>
                     <div id={value.id}>
-                        <p>Message id: {value.id}</p>
                         <p>Message: {value.content}</p>
                         <p>Time: {value.time}</p>
                         <br/>

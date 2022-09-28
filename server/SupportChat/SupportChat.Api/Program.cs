@@ -7,17 +7,7 @@ using SupportChat.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // builder.Services.AddHostedService<ChatBackgroundService>();
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy(MyAllowSpecificOrigins,
-//         policy =>
-//         {
-//             policy.WithOrigins(MyAllowSpecificOrigins)
-//                 .AllowAnyOrigin();
-//         });
-// });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
