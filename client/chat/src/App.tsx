@@ -1,13 +1,16 @@
 import React from 'react';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './App.css';
-import $api from "./http";
+import Message from "./components/Message";
 
 function App() {
-  return (
-    <div className="App">
-      $api
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/chat" element={<Message/>}/>
+            </Routes>
+        </BrowserRouter>
+        )
 }
 
 export default App;

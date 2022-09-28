@@ -1,8 +1,6 @@
-﻿import {UserDto} from "./UserDto";
-
-export interface MessageDto {
+﻿export interface MessageDto {
+    id: string,
     content: string,
-    user: UserDto,
-    time: Date
+    time: string
 }
 
