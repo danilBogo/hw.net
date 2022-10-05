@@ -9,17 +9,17 @@ namespace SupportChat.Api.Controllers;
 [Route("[controller]")]
 public class RabbitController : ControllerBase
 {
-    private readonly IRabbitMqService _mqService;
-
-    public RabbitController(IRabbitMqService mqService)
-    {
-        _mqService = mqService;
-    }
+    // private readonly IRabbitMqService _mqService;
+    //
+    // public RabbitController(IRabbitMqService mqService)
+    // {
+    //     _mqService = mqService;
+    // }
     // /rabbit?msg=123
-    [HttpGet]
-    public IActionResult Message(string msg)
-    {
-        _mqService.SendMessage(msg);
-        return Ok($"Сообщение {msg} отправлено");
-    }
+    // [HttpGet]
+    // public IActionResult Message(string msg)
+    // {
+    //     _mqService.SendMessage(msg);
+    //     return Ok($"Сообщение {msg} отправлено");
+    // }
 }

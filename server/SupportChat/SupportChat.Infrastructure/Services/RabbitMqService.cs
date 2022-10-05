@@ -44,15 +44,17 @@ public class RabbitMqService : IRabbitMqService
         using (var connection = factory.CreateConnection())
         using (var channel = connection.CreateModel())
         {
+            channel.ExchangeDeclare("MyExchange", "fanout", true);
+            
             channel.QueueDeclare(queue: _queueName,
-                durable: false,
+                durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
             var body = Encoding.UTF8.GetBytes(message);
 
-            channel.BasicPublish(exchange: "",
+            channel.BasicPublish(exchange: "MyExchange",
                 routingKey: _queueName,
                 basicProperties: null,
                 body: body);

@@ -1,66 +1,66 @@
 ﻿import React, {useEffect, useRef, useState} from 'react';
+import { format } from 'date-fns';
 import $api from "../http";
 import {MessageDto} from "../dto/MessageDto";
-
-import {AMQPChannel, AMQPWebSocketClient} from "@cloudamqp/amqp-client";
+import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 
 function Message() {
-    const [data, setData] = useState<MessageDto[]>();
+    const [data, setData] = useState<MessageDto[]>([]);
     const [msg, setMsg] = useState("");
-    const channel = useRef<AMQPChannel>()
-        
+    const [hubConnection, setConnection] = useState<HubConnection>();
+    const lastMessage = useRef<MessageDto>();
+    
     useEffect(() => {
-        subscribe().then(() => getHistory().then(value => setData(value)))
+        if (lastMessage.current)
+        {
+            if (!data)
+                setData([lastMessage.current])
+            else
+                setData([...data, lastMessage.current])
+        }
+    }, [lastMessage.current]);
+    
+    useEffect(() => {
+        const connection = new HubConnectionBuilder()
+            .withUrl(`${process.env.REACT_APP_SERVER_URL}/chatSignalR`)
+            .build();
+        try {
+            connection.start().then(() => {
+                console.log("я запустился");
+                connection.on("Send", message => {
+                    const newMsg: MessageDto = {
+                        id: "",
+                        content: message,
+                        time: format(new Date(Date.now()).setHours(new Date(Date.now()).getHours() - 3), 'yyyy/MM/dd kk:mm:ss')
+                    };
+                    console.log("зашел");
+                    lastMessage.current = newMsg;
+                }
+                );
+            })
+        } catch (e) {
+            console.log("идешь нахуй");
+            console.log(e);
+        }
+        setConnection(connection);
+        getHistory().then(value => setData(value!));
     }, [])
 
-    async function sendMessage() {
-        try {
-            await channel.current!.basicPublish("amq.fanout", "", msg, 
-                { contentType: "text/plain" })
-        } catch (err) {
-            console.error("Error", err)
-        }
-    }
-    
-    async function subscribe() {
-        const tls = window.location.protocol === "https:";
-        const url = `${tls ? "wss" : "ws"}://localhost:15670`;
-        const vhost = "/";
-        const username = "guest";
-        const password = "guest";
-        const queueName = "MyQueue";
-        const exchange = "amq.fanout";
-        const routingKey = "";
-
-        const amqp = new AMQPWebSocketClient(url, vhost, username, password);
-        const client = await amqp.connect();
-        channel.current = await client.channel();
-        
-        const queue = await channel.current.queue(queueName);
-        await queue.bind(exchange, routingKey);
-        await queue.subscribe({}, (msg) => {
-            const body = msg.bodyToString();
-            if (body === null) {
-                console.error('Received body is null');
-                return;
-            }
-            try {
-                // console.log(body);
-                console.log("ебать здарова");
-                console.log(JSON.parse(body));
-            } catch (e) {
-                console.error('Could not parse received message', e);
-                return;
-            }
+    function sendMessage() {
+        hubConnection!.invoke("Send", msg).then(() => {
+            setMsg("");
         });
     }
 
-    async function getHistory() {
-        let res = (await $api.get<MessageDto[]>("/chat"))
-        if (res.status === 200)
-            return res.data;
-        else
-            console.error('ашипка палучения истори')
+    function getHistory() {
+        return $api.get<MessageDto[]>("/chat").then((res) => {
+            if (res.status === 200) {
+                console.log("успешно получил историю");
+                if (res.data.length > 0)
+                    return res.data;
+            } else
+                console.error('ашипка палучения истори')
+        });
     }
 
     return (
@@ -69,7 +69,7 @@ function Message() {
                 data?.map((value) =>
                     <div id={value.id}>
                         <p>Message: {value.content}</p>
-                        <p>Time: {value.time}</p>
+                        <p>Time: {format(new Date(value.time).setHours(new Date(value.time).getHours() + 3), 'yyyy/MM/dd kk:mm:ss')}</p>
                         <br/>
                         <br/>
                     </div>

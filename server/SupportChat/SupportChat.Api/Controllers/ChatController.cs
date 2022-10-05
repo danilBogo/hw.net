@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using SupportChat.Core.Entities;
 using SupportChat.Core.Services;
 
@@ -8,16 +9,29 @@ namespace SupportChat.Api.Controllers;
 [Route("[controller]")]
 public class ChatController : ControllerBase
 {
-    private readonly MessageService messageService;
+    private readonly MessageService _messageService;
 
     public ChatController(MessageService messageService)
     {
-        this.messageService = messageService;
+        _messageService = messageService;
     }
 
     [HttpGet]
     public async Task<IEnumerable<Message>> Message()
     {
-        return await messageService.GetMessageHistoryAsync();
+        return await _messageService.GetMessageHistoryAsync();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Message([FromForm]string content)
+    {
+        var message = new Message
+        {
+            Content = content,
+            Time = DateTime.Now
+        };
+        await _messageService.AddMessageAsync(message);
+        return Ok();
     }
 }
+
