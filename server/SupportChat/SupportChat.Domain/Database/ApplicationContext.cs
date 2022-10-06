@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SupportChat.Core.Entities;
+using SupportChat.Domain.Models;
 
-namespace SupportChat.Infrastructure.Database;
+namespace SupportChat.Domain.Database;
 
 public class ApplicationContext : DbContext
 {

@@ -17,10 +17,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SupportChat.SignalR\SupportChat.SignalR.csproj" />
+<!--      <ProjectReference Include="..\SupportChat.SignalR\SupportChat.SignalR.csproj" />-->
       <ProjectReference Include="..\SupportChat.SharedKernel\SupportChat.SharedKernel.csproj" />
-      <ProjectReference Include="..\SupportChat.Core\SupportChat.Core.csproj" />
       <ProjectReference Include="..\SupportChat.Infrastructure\SupportChat.Infrastructure.csproj" />
+      <ProjectReference Include="..\SupportChat.Domain\SupportChat.Domain.csproj" />
     </ItemGroup>
 
 </Project>

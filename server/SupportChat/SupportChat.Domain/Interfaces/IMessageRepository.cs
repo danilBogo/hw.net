@@ -1,6 +1,6 @@
-﻿using SupportChat.Core.Entities;
+﻿using SupportChat.Domain.Models;
 
-namespace SupportChat.Core.Interfaces;
+namespace SupportChat.Domain.Interfaces;
 
 public interface IMessageRepository
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SupportChat.Infrastructure.Database;
+using SupportChat.Domain.Database;
 
-namespace SupportChat.Infrastructure;
+namespace SupportChat.Domain;
 
 public static class InfrastructureStartupSetup
 {

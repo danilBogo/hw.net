@@ -1,6 +1,6 @@
-﻿namespace SupportChat.Core.Entities;
+﻿using SharedKernel.BaseEntities;
 
-using SharedKernel.BaseEntities;
+namespace SupportChat.Domain.Models;
 
 public class Message : BaseEntity
 {

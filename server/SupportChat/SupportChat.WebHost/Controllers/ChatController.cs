@@ -1,9 +1,8 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
-using SupportChat.Core.Entities;
-using SupportChat.Core.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using SupportChat.Domain.Models;
+using SupportChat.Infrastructure.Services;
 
-namespace SupportChat.Api.Controllers;
+namespace SupportChat.WebHost.Controllers;
 
 [ApiController]
 [Route("[controller]")]

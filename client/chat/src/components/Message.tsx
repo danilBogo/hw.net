@@ -8,17 +8,6 @@ function Message() {
     const [data, setData] = useState<MessageDto[]>([]);
     const [msg, setMsg] = useState("");
     const [hubConnection, setConnection] = useState<HubConnection>();
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const lastMessage = useRef<MessageDto>();
-
-    useEffect(() => {
-        if (lastMessage.current) {
-            if (!data)
-                setData([lastMessage.current])
-            else
-                setData([...data, lastMessage.current])
-        }
-    }, [lastMessage.current]);
 
     useEffect(() => {
         const connection = new HubConnectionBuilder()
@@ -33,24 +22,15 @@ function Message() {
                             content: message,
                             time: format(new Date(Date.now()).setHours(new Date(Date.now()).getHours() - 3), 'yyyy/MM/dd kk:mm:ss')
                         };
-                        console.log("зашел");
-                        // if (!data){
-                        //     setData([newMsg]);
-                        // }
-                        // else
-                        //     setData([...data, newMsg]);
-                        lastMessage.current = newMsg;
+                        setData((prev) => !prev ? [newMsg] : [...prev, newMsg]);
                     }
                 );
             })
         } catch (e) {
-            console.log("идешь нахуй");
+            console.log("чел ты что то неправильно сделал...");
             console.log(e);
         }
         setConnection(connection);
-        setInterval(() => {
-            setIsDataLoaded(!isDataLoaded);
-        }, 100);
         getHistory().then(value => setData(value!));
     }, [])
 
@@ -83,7 +63,6 @@ function Message() {
                     </div>
                 )
             }
-            <div hidden={true}>{isDataLoaded}</div>
             <textarea value={msg} onChange={(e) => setMsg(e.target.value)}/>
             <br/>
             <button onClick={sendMessage}>Отправить</button>

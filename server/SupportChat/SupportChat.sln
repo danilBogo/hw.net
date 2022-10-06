@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Api", "SupportChat.Api\SupportChat.Api.csproj", "{EADE69C0-55B6-420A-8652-7E96BD89561D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.WebHost", "SupportChat.WebHost\SupportChat.WebHost.csproj", "{EADE69C0-55B6-420A-8652-7E96BD89561D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Core", "SupportChat.Core\SupportChat.Core.csproj", "{A3F9960B-88A0-4BFD-BB6E-7E0C4F868899}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Infrastructure", "SupportChat.Infrastructure\SupportChat.Infrastructure.csproj", "{A3F9960B-88A0-4BFD-BB6E-7E0C4F868899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Infrastructure", "SupportChat.Infrastructure\SupportChat.Infrastructure.csproj", "{08B28D23-EF23-4C3A-8646-4F20D28D7867}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.Domain", "SupportChat.Domain\SupportChat.Domain.csproj", "{08B28D23-EF23-4C3A-8646-4F20D28D7867}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportChat.SharedKernel", "SupportChat.SharedKernel\SupportChat.SharedKernel.csproj", "{938D06A4-BF76-4A6E-A0A8-C0FDD5683EAB}"
 EndProject

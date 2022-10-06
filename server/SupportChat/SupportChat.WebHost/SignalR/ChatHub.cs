@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.SignalR;
-using SupportChat.Core.Entities;
+using SupportChat.Domain.Models;
 
-namespace SupportChat.Api.SignalR;
+namespace SupportChat.WebHost.SignalR;
 
 public class ChatHub : Hub
 {

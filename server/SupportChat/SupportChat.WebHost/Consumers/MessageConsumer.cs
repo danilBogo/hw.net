@@ -1,8 +1,8 @@
 ﻿using MassTransit;
-using SupportChat.Core.Entities;
-using SupportChat.Core.Services;
+using SupportChat.Domain.Models;
+using SupportChat.Infrastructure.Services;
 
-namespace SupportChat.Api.Consumers;
+namespace SupportChat.WebHost.Consumers;
 
 public class MessageConsumer : IConsumer<Message>
 {

@@ -10,4 +10,10 @@
       <ProjectReference Include="..\SupportChat.SharedKernel\SupportChat.SharedKernel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+    </ItemGroup>
+
 </Project>

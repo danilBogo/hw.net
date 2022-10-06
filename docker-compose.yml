@@ -12,7 +12,7 @@ services:
     restart: always
     build:
       context: server/SupportChat
-      dockerfile: SupportChat.Api/Dockerfile
+      dockerfile: SupportChat.WebHost/Dockerfile
     ports:
       - '8081:80'
     depends_on:
