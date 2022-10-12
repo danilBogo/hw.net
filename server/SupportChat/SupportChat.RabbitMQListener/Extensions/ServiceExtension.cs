@@ -1,21 +1,18 @@
 ﻿using MassTransit;
 using SupportChat.Domain.Interfaces;
 using SupportChat.Domain.Repositories;
-using SupportChat.Infrastructure.Services;
+using SupportChat.RabbitMQListener.Consumers;
 
-namespace SupportChat.WebHost.Extensions;
+namespace SupportChat.RabbitMQListener.Extensions;
 
 public static class ServiceExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
-        services.AddSignalR();
         services.AddScoped<IMessageRepository, MessageRepository>();
-        services.AddScoped<MessageService>();
         services.AddMassTransit(config =>
         {
+            config.AddConsumer<MessageConsumer>();
             config.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(configuration.GetRequiredSection("Rabbit:DockerImage").Value, "/", h =>
@@ -26,6 +23,7 @@ public static class ServiceExtension
                 cfg.ReceiveEndpoint(e =>
                 {
                     e.Bind(configuration.GetRequiredSection("Rabbit:ExchangeName").Value);
+                    e.ConfigureConsumer<MessageConsumer>(context);
                 });
                 cfg.ConfigureEndpoints(context);
             });

@@ -2,7 +2,7 @@
 using SupportChat.Domain.Models;
 using SupportChat.Infrastructure.Services;
 
-namespace SupportChat.WebHost.Consumers;
+namespace SupportChat.RabbitMQListener.Consumers;
 
 public class MessageConsumer : IConsumer<Message>
 {
