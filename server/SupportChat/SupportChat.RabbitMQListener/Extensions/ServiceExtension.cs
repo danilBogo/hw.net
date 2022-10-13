@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using SupportChat.Domain.Interfaces;
 using SupportChat.Domain.Repositories;
+using SupportChat.Infrastructure.Services;
 using SupportChat.RabbitMQListener.Consumers;
 
 namespace SupportChat.RabbitMQListener.Extensions;
@@ -10,6 +11,7 @@ public static class ServiceExtension
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<MessageService>();
         services.AddMassTransit(config =>
         {
             config.AddConsumer<MessageConsumer>();
