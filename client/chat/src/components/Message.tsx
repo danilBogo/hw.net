@@ -35,7 +35,7 @@ function Message() {
     }, [])
 
     function sendMessage() {
-        hubConnection!.invoke("Send", msg).then(() => {
+        hubConnection!.invoke("Send", msg, msg).then(() => {
             setMsg("");
         });
     }
@@ -44,6 +44,8 @@ function Message() {
         return $api.get<MessageDto[]>("/chat").then((res) => {
             if (res.status === 200) {
                 console.log("успешно получил историю");
+                console.log(res.data);
+                console.log("конец истории");
                 if (res.data.length > 0)
                     return res.data;
             } else

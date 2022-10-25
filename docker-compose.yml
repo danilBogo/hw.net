@@ -1,6 +1,6 @@
 services:
   frontend:
-    build: 
+    build:
       context: client/chat
       dockerfile: Dockerfile
     ports:
@@ -26,7 +26,7 @@ services:
       POSTGRES_DB: "SupportChatDatabase"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      
+  
   rabbit-mq:
     image: rabbitmq:3.7-management
     ports:
@@ -42,3 +42,9 @@ services:
       - '8083:80'
     depends_on:
       - backend
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017

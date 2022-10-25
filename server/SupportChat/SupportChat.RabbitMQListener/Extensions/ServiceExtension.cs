@@ -11,7 +11,9 @@ public static class ServiceExtension
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<MessageService>();
+        services.AddScoped<FileService>();
         services.AddMassTransit(config =>
         {
             config.AddConsumer<MessageConsumer>();
