@@ -23,8 +23,9 @@ public class MessageConsumer : IConsumer<MessageDto>
             Content = context.Message.Content,
             Time = context.Message.Time
         };
+        await _messageService.AddMessageAsync(message);
         var file = _fileService.GetFile(context.Message.JsonMetadata,
             Path.GetExtension(context.Message.FormFile.FileName));
-        await _messageService.AddMessageAsync(message);
+        // _fileService.CreateFileMetaData(file);
     }
 }

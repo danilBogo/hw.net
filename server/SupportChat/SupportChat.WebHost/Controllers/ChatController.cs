@@ -20,17 +20,5 @@ public class ChatController : ControllerBase
     {
         return await _messageService.GetMessageHistoryAsync();
     }
-    
-    // [HttpPost]
-    // public async Task<IActionResult> Message([FromForm]string content)
-    // {
-    //     var message = new Message
-    //     {
-    //         Content = content,
-    //         Time = DateTime.Now
-    //     };
-    //     await _messageService.AddMessageAsync(message);
-    //     return Ok();
-    // }
 }
 

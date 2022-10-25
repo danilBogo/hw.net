@@ -22,6 +22,9 @@ public class FileService
     public async Task<IEnumerable<TxtFileMetadata>> GetTxtFileMetaData(Guid messageId) =>
         await GetFileMetadata<TxtFileMetadata>(messageId);
 
+    public async Task CreateFileMetaData<T>(T newFile) where T : FileMetadata =>
+        await _fileRepository.CreateAsync(newFile);
+
     public dynamic GetFile(string json, string fileExtension)
     {
         return fileExtension switch

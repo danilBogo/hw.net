@@ -31,4 +31,19 @@ public class FileRepository : IFileRepository
         var currentCollection = GetCollection<T>();
         return await currentCollection.Find(filter).ToListAsync();
     }
+    
+    public async Task CreateAsync<T>(T newFile) where T : FileMetadata
+    {
+        switch (newFile)
+        {
+            case ImageFileMetadata imageFileMetadata:
+                await ImageFilesMetadata.InsertOneAsync(imageFileMetadata);
+                break;
+            case TxtFileMetadata txtFileMetadata:
+                await TxtFilesMetadata.InsertOneAsync(txtFileMetadata);
+                break;
+            default:
+                throw new Exception("Requested collection does not exist");
+        }
+    }
 }
