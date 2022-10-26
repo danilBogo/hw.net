@@ -22,43 +22,30 @@ public static class ServiceExtension
         {
             config.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(configuration.GetRequiredSection("Rabbit:DockerImage").Value, "/", h =>
+                cfg.Host(new Uri("rabbitmq://localhost:5672"), h =>
                 {
                     h.Username(configuration.GetRequiredSection("Rabbit:Username").Value);
                     h.Password(configuration.GetRequiredSection("Rabbit:Password").Value);
                 });
-                cfg.ReceiveEndpoint(e =>
-                {
-                    e.Bind(configuration.GetRequiredSection("Rabbit:ExchangeName").Value);
-                });
+                cfg.ReceiveEndpoint(e => { e.Bind(configuration.GetRequiredSection("Rabbit:ExchangeName").Value); });
                 cfg.ConfigureEndpoints(context);
             });
         });
-        
+
         var awsOptions = new AWSOptions
         {
             Credentials = new BasicAWSCredentials(
                 configuration["AWS:AccessKey"],
                 configuration["AWS:AccessSecret"]),
-        
+
             DefaultClientConfig =
             {
                 ServiceURL = configuration["AWS:ServiceUrl"]
             }
         };
-        
+
         services.AddDefaultAWSOptions(awsOptions);
         services.AddAWSService<IAmazonS3>();
-        return services;
-    }
-
-    public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddSingleton<IMongoDbConfiguration>(new MongoDbConfiguration()
-        {
-            Database = configuration.GetRequiredSection("Mongo:DatabaseName").Value,
-            ConnectionString = configuration.GetRequiredSection("Mongo:ConnectionString").Value 
-        });
         return services;
     }
 }

@@ -2,7 +2,7 @@ using SupportChat.Domain;
 using SupportChat.WebHost.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
