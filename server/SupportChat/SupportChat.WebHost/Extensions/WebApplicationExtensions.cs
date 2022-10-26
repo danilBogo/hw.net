@@ -10,6 +10,7 @@ public static class WebApplicationExtensions
         app.UseAuthorization();
         app.MapControllers();
         app.UseRouting();
+        var kek = app.Configuration.GetRequiredSection("ClientHost").Value;
         app.UseCors(build =>
             build.WithOrigins(app.Configuration.GetRequiredSection("ClientHost").Value)
                 .AllowAnyMethod()

@@ -22,6 +22,7 @@ public static class ServiceExtension
         {
             config.UsingRabbitMq((context, cfg) =>
             {
+                // cfg.Host(configuration.GetRequiredSection("Rabbit:DockerImage").Value, "/", h =>
                 cfg.Host(new Uri("rabbitmq://localhost:5672"), h =>
                 {
                     h.Username(configuration.GetRequiredSection("Rabbit:Username").Value);
