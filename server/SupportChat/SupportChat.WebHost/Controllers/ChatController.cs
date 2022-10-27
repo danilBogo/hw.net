@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using SupportChat.Domain.Models;
+using SupportChat.Domain.Models.Files;
 using SupportChat.Infrastructure.Services;
 
 namespace SupportChat.WebHost.Controllers;
@@ -9,10 +11,12 @@ namespace SupportChat.WebHost.Controllers;
 public class ChatController : ControllerBase
 {
     private readonly MessageService _messageService;
+    private readonly FileService _fileService;
 
-    public ChatController(MessageService messageService)
+    public ChatController(MessageService messageService, FileService fileService)
     {
         _messageService = messageService;
+        _fileService = fileService;
     }
 
     [HttpGet]

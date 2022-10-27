@@ -1,6 +1,6 @@
 ﻿export interface MessageDto {
-    id: string,
     content: string,
-    time: string
+    time: string,
+    fileId: string
 }
 

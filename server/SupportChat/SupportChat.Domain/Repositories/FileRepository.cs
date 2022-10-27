@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using SharedKernel.Files;
 using SupportChat.Domain.Interfaces;
 using SupportChat.Domain.Models.Files;
 
@@ -8,42 +7,29 @@ namespace SupportChat.Domain.Repositories;
 
 public class FileRepository : IFileRepository
 {
-    public IMongoCollection<ImageFileMetadata> ImageFilesMetadata { get; } = null!;
-    public IMongoCollection<TxtFileMetadata> TxtFilesMetadata { get; } = null!;
+    public IMongoCollection<FileMetadata> FilesMetadata => _database.GetCollection<FileMetadata>(nameof(FileMetadata));
     private readonly IMongoDatabase _database;
-    
+
     public FileRepository(IMongoDbConfiguration mongoDbConfiguration)
     {
         var client = new MongoClient(mongoDbConfiguration.ConnectionString);
         _database = client.GetDatabase(mongoDbConfiguration.Database);
     }
-    
-    private IMongoCollection<T> GetCollection<T>(string name = nameof(T)) where T : FileMetadata =>
-        _database.GetCollection<T>(name);
-    
-    public async Task<IEnumerable<T>> GetCollectionWithFilter<T>(Guid messageId) where T : FileMetadata
+
+    public async Task<FileMetadata> GetFileWithFilter(string fileId)
     {
-        var builder = new FilterDefinitionBuilder<T>();
+        var builder = new FilterDefinitionBuilder<FileMetadata>();
         var filter = builder.Empty;
-        var str = messageId.ToString();
-        if (!string.IsNullOrWhiteSpace(str))
-            filter &= builder.Regex("MessageId", new BsonRegularExpression(str));
-        var currentCollection = GetCollection<T>();
-        return await currentCollection.Find(filter).ToListAsync();
+        if (!string.IsNullOrWhiteSpace(fileId))
+            filter &= builder.Regex("Id", new BsonRegularExpression(fileId));
+        var currentCollection = _database.GetCollection<FileMetadata>(nameof(FileMetadata));
+        return await currentCollection.Find(filter).SingleOrDefaultAsync();
     }
-    
-    public async Task CreateAsync<T>(T newFile) where T : FileMetadata
+
+
+    public async Task<FileMetadata> CreateAsync(FileMetadata file)
     {
-        switch (newFile)
-        {
-            case ImageFileMetadata imageFileMetadata:
-                await ImageFilesMetadata.InsertOneAsync(imageFileMetadata);
-                break;
-            case TxtFileMetadata txtFileMetadata:
-                await TxtFilesMetadata.InsertOneAsync(txtFileMetadata);
-                break;
-            default:
-                throw new Exception("Requested collection does not exist");
-        }
+        await FilesMetadata.InsertOneAsync(file);
+        return file;
     }
 }

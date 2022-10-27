@@ -17,7 +17,9 @@ public static class ServiceExtension
         services.AddEndpointsApiExplorer();
         services.AddSignalR();
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<MessageService>();
+        services.AddScoped<FileService>();
         services.AddMassTransit(config =>
         {
             config.UsingRabbitMq((context, cfg) =>
@@ -41,7 +43,7 @@ public static class ServiceExtension
 
             DefaultClientConfig =
             {
-                ServiceURL = configuration["AWS:ServiceUrl"]
+                ServiceURL = configuration["AWS:ServiceUrl"],
             }
         };
 

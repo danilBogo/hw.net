@@ -1,11 +1,10 @@
-﻿using MongoDB.Driver;
-using SharedKernel.Files;
+﻿using SupportChat.Domain.Models.Files;
 
 namespace SupportChat.Domain.Interfaces;
 
 public interface IFileRepository
 {
-    Task<IEnumerable<T>> GetCollectionWithFilter<T>(Guid messageId) where T : FileMetadata;
+    Task<FileMetadata> GetFileWithFilter(string messageId);
 
-    Task CreateAsync<T>(T newFile) where T : FileMetadata;
+    Task<FileMetadata> CreateAsync(FileMetadata newFile);
 }

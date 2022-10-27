@@ -1,6 +1,8 @@
-﻿using MassTransit;
+﻿using System.Text;
+using MassTransit;
 using Microsoft.AspNetCore.SignalR;
 using SupportChat.Domain.Dto;
+using SupportChat.Domain.Models.Files;
 
 namespace SupportChat.WebHost.SignalR;
 
@@ -13,15 +15,14 @@ public class ChatHub : Hub
         _bus = bus;
     }
 
-    public async Task Send(string message, IFormFile formFile, string jsonMetadata)
+    public async Task Send(string message, FileMetadata fileMetadata)
     {
-        await _bus.Publish(new MessageDto
+        await _bus.Publish(new MessageFileMetadataDto
         {
             Content = message,
             Time = DateTime.Now,
-            FormFile = formFile,
-            JsonMetadata = jsonMetadata
+            FileMetadata = fileMetadata
         });
-        await Clients.All.SendAsync("Send", message);
+        await Clients.All.SendAsync("Send", message, fileMetadata);
     }
 }

@@ -5,7 +5,7 @@ using SupportChat.Infrastructure.Services;
 
 namespace SupportChat.RabbitMQListener.Consumers;
 
-public class MessageConsumer : IConsumer<MessageDto>
+public class MessageConsumer : IConsumer<MessageFileMetadataDto>
 {
     private readonly MessageService _messageService;
     private readonly FileService _fileService;
@@ -16,16 +16,14 @@ public class MessageConsumer : IConsumer<MessageDto>
         _fileService = fileService;
     }
 
-    public async Task Consume(ConsumeContext<MessageDto> context)
+    public async Task Consume(ConsumeContext<MessageFileMetadataDto> context)
     {
         var message = new Message
         {
             Content = context.Message.Content,
-            Time = context.Message.Time
+            Time = context.Message.Time,
+            FileId = context.Message.FileMetadata.Id
         };
         await _messageService.AddMessageAsync(message);
-        var file = _fileService.GetFile(context.Message.JsonMetadata,
-            Path.GetExtension(context.Message.FormFile.FileName));
-        // _fileService.CreateFileMetaData(file);
     }
 }
