@@ -5,17 +5,14 @@ import {MessageFileMetadataDto} from "../dto/MessageFileMetadataDto";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import {FileMetadata} from "../dto/FileMetadataDto";
 import {MessageDto} from "../dto/MessageDto";
+import {Huina} from "./Huina";
+import axios from "axios";
 
 function Message() {
     const [data, setData] = useState<MessageFileMetadataDto[]>([]);
     const [msg, setMsg] = useState("");
     const [hubConnection, setConnection] = useState<HubConnection>();
-
     const [selectedFile, setSelectedFile] = useState<File>();
-    
-    useEffect(() => {
-        console.log(data, msg,  hubConnection, selectedFile);
-    }, [data.length, msg, selectedFile])
 
     useEffect(() => {
         const connection = new HubConnectionBuilder()
@@ -47,35 +44,39 @@ function Message() {
                         time: item.time,
                         fileMetadata: null
                     };
-                    if (item?.fileId?.length > 0)
+                    if (item?.fileId?.length > 0) {
                         getFileForMessage(item.fileId).then(res => {
+                            // console.log(res);
                             messageFileMetadata.fileMetadata = res!
+                            setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
                         });
-                    setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
+                    } else
+                        setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
                 });
         });
     }, [])
 
     const sendMessage = async () => {
         const formData = new FormData();
-        let fileMetadata : FileMetadata = {
+        let fileMetadata: FileMetadata = {
             id: "",
             extension: "",
             contentType: "",
             size: 0,
-            name: ""
+            name: "",
+            fileId: ""
         };
         if (selectedFile) {
             formData.set('file', selectedFile!);
-            $api.post("/file", formData).then((res) => {
+            $api.post("/filemetadata", formData).then((res) => {
                 fileMetadata = {
-                    id: res.data.id, 
+                    id: res.data.id,
                     extension: res.data.extension,
                     contentType: res.data.contentType,
                     size: res.data.size,
-                    name: res.data.name
+                    name: res.data.name,
+                    fileId: res.data.fileId
                 }
-                console.log(fileMetadata);
                 hubConnection!.invoke("Send", msg, fileMetadata).then(() => {
                     setMsg("");
                 });
@@ -102,42 +103,50 @@ function Message() {
     }
 
     function getFileForMessage(fileId: string) {
-        return $api.get<FileMetadata>(`/file?fileId=${fileId}`).then((res) => {
-            if (res.status === 200) {
-                return res.data;
-            } else
-                console.error('ашипка палучения файла')
-        });
+        return $api.get<FileMetadata>(`/filemetadata`, {params: {fileId: fileId}})
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.data;
+                } else
+                    console.error('ашипка палучения файла')
+            });
     }
 
     const handleChange = (event: any) => {
         console.log(event.target.files[0]);
+        console.log(event.target.files[0].type)
         setSelectedFile(event.target.files[0]);
     };
+
 
     return (
         <div>
             {
                 data?.map((value, index) =>
-                    <div key={index}>
+                        <Huina
+                            content={value.content}
+                            fileMetadata={value.fileMetadata}
+                            time={value.time}/>
+
+                    /*<div key={index}>
                         <p>Message: {value.content}</p>
                         <p>Time: {format(new Date(value.time).setHours(new Date(value.time).getHours() + 3), 'yyyy/MM/dd kk:mm:ss')}</p>
-                        {value.fileMetadata ? (<>
-                            <button id={value.fileMetadata.id}
-                                    onClick={() => alert(value.fileMetadata?.id)}>File: {value.fileMetadata.name}</button>
+                        {value.fileMetadata && value.fileMetadata.id.length > 0 ? (<>
+                            <a href={getUrl(value.fileMetadata.id, value.fileMetadata.contentType)} download>Скачать
+                                файл</a>
                             <p>Size: {value.fileMetadata.size}</p>
                             <p>ContentType: {value.fileMetadata.contentType}</p>
                             <p>Extension: {value.fileMetadata.extension}</p>
                         </>) : null}
                         <br/>
                         <br/>
-                    </div>
+                    </div>*/
                 )
             }
             <textarea value={msg} onChange={(e) => setMsg(e.target.value)}/>
             <br/>
-            {/*<button onClick={sendMessage}>Отправить</button>*/}
-            {/*<input type="file" onChange={handleChange} accept={".png,.txt"}/>*/}
+            <button onClick={sendMessage}>Отправить</button>
+            <input type="file" onChange={handleChange} accept={".png,.txt"}/>
         </div>
     );
 }

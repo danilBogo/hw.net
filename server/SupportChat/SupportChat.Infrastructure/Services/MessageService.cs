@@ -20,6 +20,5 @@ public class MessageService
     public async Task AddMessageAsync(Message message)
     {
         await _messageRepository.AddAsync(message);
-        await _messageRepository.SaveChangesAsync();
     }
 }

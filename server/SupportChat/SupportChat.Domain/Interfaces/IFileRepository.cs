@@ -4,7 +4,11 @@ namespace SupportChat.Domain.Interfaces;
 
 public interface IFileRepository
 {
-    Task<FileMetadata> GetFileWithFilter(string messageId);
+    Task<FileMetadata> GetFileMetadataWithFilter(string messageId);
 
-    Task<FileMetadata> CreateAsync(FileMetadata newFile);
+    Task<FileMetadata> CreateFileMetadataAsync(FileMetadata newFile);
+
+    Task<Guid> SaveFileAsync(Stream stream, string fileName, string contentType);
+
+    Task<Stream?> DownloadFileAsync(Guid fileId);
 }

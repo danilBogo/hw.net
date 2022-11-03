@@ -11,17 +11,16 @@ namespace SupportChat.WebHost.Controllers;
 public class ChatController : ControllerBase
 {
     private readonly MessageService _messageService;
-    private readonly FileService _fileService;
 
-    public ChatController(MessageService messageService, FileService fileService)
+    public ChatController(MessageService messageService)
     {
         _messageService = messageService;
-        _fileService = fileService;
     }
 
     [HttpGet]
     public async Task<IEnumerable<Message>> Message()
     {
+        var result = await _messageService.GetMessageHistoryAsync();
         return await _messageService.GetMessageHistoryAsync();
     }
 }

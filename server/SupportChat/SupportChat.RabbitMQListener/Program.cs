@@ -7,6 +7,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddMongoDb(builder.Configuration);
+builder.Services.AddMinio(builder.Configuration);
 
 var app = builder.Build();
 

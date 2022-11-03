@@ -8,12 +8,10 @@ namespace SupportChat.RabbitMQListener.Consumers;
 public class MessageConsumer : IConsumer<MessageFileMetadataDto>
 {
     private readonly MessageService _messageService;
-    private readonly FileService _fileService;
 
-    public MessageConsumer(MessageService messageService, FileService fileService)
+    public MessageConsumer(MessageService messageService)
     {
         _messageService = messageService;
-        _fileService = fileService;
     }
 
     public async Task Consume(ConsumeContext<MessageFileMetadataDto> context)

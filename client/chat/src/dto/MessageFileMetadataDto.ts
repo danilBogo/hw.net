@@ -3,6 +3,6 @@
 export interface MessageFileMetadataDto {
     content: string,
     time: string,
-    fileMetadata: FileMetadata | null
+    fileMetadata: FileMetadata | null,
 }
 

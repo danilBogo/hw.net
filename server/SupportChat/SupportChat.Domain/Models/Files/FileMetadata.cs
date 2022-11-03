@@ -15,4 +15,6 @@ public class FileMetadata
     public string ContentType { get; set; } = null!;
     
     public long Size { get; set; }
+
+    public string FileId { get; set; } = null!;
 }
