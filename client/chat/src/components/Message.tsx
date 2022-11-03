@@ -5,8 +5,7 @@ import {MessageFileMetadataDto} from "../dto/MessageFileMetadataDto";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import {FileMetadata} from "../dto/FileMetadataDto";
 import {MessageDto} from "../dto/MessageDto";
-import {Huina} from "./Huina";
-import axios from "axios";
+import {OneMessageComponent} from "./OneMessageComponent";
 
 function Message() {
     const [data, setData] = useState<MessageFileMetadataDto[]>([]);
@@ -20,7 +19,6 @@ function Message() {
             .build();
         try {
             connection.start().then(() => {
-                console.log("я запустился");
                 connection.on("Send", (message: string, fileMetadata: FileMetadata) => {
                         const newMsg: MessageFileMetadataDto = {
                             content: message,
@@ -32,7 +30,6 @@ function Message() {
                 );
             })
         } catch (e) {
-            console.log("чел ты что то неправильно сделал...");
             console.log(e);
         }
         setConnection(connection);
@@ -46,7 +43,6 @@ function Message() {
                     };
                     if (item?.fileId?.length > 0) {
                         getFileForMessage(item.fileId).then(res => {
-                            // console.log(res);
                             messageFileMetadata.fileMetadata = res!
                             setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
                         });
@@ -92,9 +88,6 @@ function Message() {
     function getMessagesHistory() {
         return $api.get<MessageDto[]>("/chat").then((res) => {
             if (res.status === 200) {
-                console.log("успешно получил историю");
-                console.log(res.data);
-                console.log("конец истории");
                 if (res.data.length > 0)
                     return res.data;
             } else
@@ -113,8 +106,6 @@ function Message() {
     }
 
     const handleChange = (event: any) => {
-        console.log(event.target.files[0]);
-        console.log(event.target.files[0].type)
         setSelectedFile(event.target.files[0]);
     };
 
@@ -123,10 +114,12 @@ function Message() {
         <div>
             {
                 data?.map((value, index) =>
-                        <Huina
-                            content={value.content}
-                            fileMetadata={value.fileMetadata}
-                            time={value.time}/>
+                        <div key={index}>
+                            <OneMessageComponent
+                                content={value.content}
+                                fileMetadata={value.fileMetadata}
+                                time={value.time}/>
+                        </div>
 
                     /*<div key={index}>
                         <p>Message: {value.content}</p>

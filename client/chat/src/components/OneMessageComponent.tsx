@@ -2,7 +2,7 @@
 import React from "react";
 import {format} from "date-fns";
 
-export const Huina = (props: MessageFileMetadataDto) => {
+export const OneMessageComponent = (props: MessageFileMetadataDto) => {
     const {
         content,
         time,

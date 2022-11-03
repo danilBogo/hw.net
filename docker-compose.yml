@@ -17,6 +17,8 @@ services:
       - '8081:80'
     depends_on:
       - database
+      - mongo
+      - minio
 
   database:
     image: postgres:14-alpine
@@ -31,7 +33,7 @@ services:
     image: rabbitmq:3.7-management
     ports:
       - "5672:5672"
-      - "8082:15672"
+      - "15672:15672"
   
   listener:
     restart: always
@@ -42,9 +44,26 @@ services:
       - '8083:80'
     depends_on:
       - backend
+      - mongo
+      - minio
 
   mongo:
     image: mongo
     restart: always
     ports:
       - 27017:27017
+      
+  minio:
+    image: minio/minio
+    command: server --console-address ":9001" /data/
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minio_user
+      MINIO_ROOT_PASSWORD: minio_password
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
