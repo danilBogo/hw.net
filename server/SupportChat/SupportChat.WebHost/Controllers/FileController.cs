@@ -20,8 +20,6 @@ public class FileController : ControllerBase
     [HttpGet]
     public async Task<IActionResult?> File(string fileId, string contentType, string name)
     {
-        // var stream = new StreamReader(@"C:\Users\danil\Desktop\Screenshot_3.png").BaseStream; 
-        // return File(stream, "image/png", name);
         var stream = await _fileService.DownloadFileAsync(new Guid(fileId));
         if (stream is null)
         return BadRequest();

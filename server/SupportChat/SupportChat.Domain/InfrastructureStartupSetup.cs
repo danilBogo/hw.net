@@ -2,12 +2,14 @@
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon;
+using EasyCaching.Core.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SupportChat.Domain.Configurations;
 using SupportChat.Domain.Database;
 using SupportChat.Domain.Interfaces;
+using SupportChat.Domain.Repositories;
 
 namespace SupportChat.Domain;
 
@@ -52,6 +54,31 @@ public static class InfrastructureStartupSetup
         };
         var client = new AmazonS3Client(credentials, config);
         services.AddSingleton<IAmazonS3>(client);
+        return services;
+    }
+
+    public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddEasyCaching(options =>
+        {
+            options.UseRedis(configurator =>
+                {
+                    var redisEndpoint = new ServerEndPoint
+                    {
+                        Host = configuration["Redis:Host"],
+                        Port = int.Parse(configuration["Redis:Port"])
+                    };
+
+                    configurator
+                        .DBConfig
+                        .Endpoints
+                        .Add(redisEndpoint);
+                
+                    configurator.SerializerName = configuration["Redis:ServiceName"];
+                }, configuration["Redis:ServiceName"])
+                .WithMessagePack(configuration["Redis:ServiceName"]);
+        });
+        services.AddScoped<ICacheRepository, CacheRepository>();
         return services;
     }
 }

@@ -12,7 +12,8 @@ public class FileRepository : IFileRepository
     private readonly IAmazonS3 _amazonS3;
     public IMongoCollection<FileMetadata> FilesMetadata => _database.GetCollection<FileMetadata>(nameof(FileMetadata));
     private readonly IMongoDatabase _database;
-    private readonly string _bucketName = "mybucket";
+    private readonly string _tempBucketName = "tempbucket";
+    private readonly string _persistentBucketName = "persistentbucket";
 
     public FileRepository(IMongoDbConfiguration mongoDbConfiguration, IAmazonS3 amazonS3)
     {
@@ -33,12 +34,12 @@ public class FileRepository : IFileRepository
 
     public async Task<Guid> SaveFileAsync(Stream stream, string fileName, string contentType)
     {
-        var result = await IsBucketExistsAsync(_bucketName);
+        var result = await IsBucketExistsAsync(_tempBucketName);
         if (!result) throw new Exception("Ошибка добавления");
         var id = Guid.NewGuid();
         var request = new PutObjectRequest
         {
-            BucketName = _bucketName,
+            BucketName = _tempBucketName,
             InputStream = stream,
             Key = id.ToString(),
             ContentType = contentType,
@@ -74,7 +75,7 @@ public class FileRepository : IFileRepository
         var request = new GetObjectRequest
         {
             Key = fileId.ToString(),
-            BucketName = _bucketName
+            BucketName = _tempBucketName
         };
         var response = await _amazonS3.GetObjectAsync(request);
         
