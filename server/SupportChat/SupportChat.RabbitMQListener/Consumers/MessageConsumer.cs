@@ -1,11 +1,13 @@
 ﻿using MassTransit;
+using SupportChat.Domain.Constants;
 using SupportChat.Domain.Dto;
+using SupportChat.Domain.Enums;
 using SupportChat.Domain.Models;
 using SupportChat.Infrastructure.Services;
 
 namespace SupportChat.RabbitMQListener.Consumers;
 
-public class MessageConsumer : IConsumer<MessageFileMetadataDto>
+public class MessageConsumer : IConsumer<MessageMetadataDto>
 {
     private readonly MessageService _messageService;
 
@@ -14,13 +16,13 @@ public class MessageConsumer : IConsumer<MessageFileMetadataDto>
         _messageService = messageService;
     }
 
-    public async Task Consume(ConsumeContext<MessageFileMetadataDto> context)
+    public async Task Consume(ConsumeContext<MessageMetadataDto> context)
     {
         var message = new Message
         {
             Content = context.Message.Content,
             Time = context.Message.Time,
-            FileId = context.Message.FileMetadata.Id
+            FileId = context.Message.Metadata.FileId
         };
         await _messageService.AddMessageAsync(message);
     }

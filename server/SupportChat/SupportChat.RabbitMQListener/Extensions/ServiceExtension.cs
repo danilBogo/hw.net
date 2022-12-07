@@ -10,13 +10,21 @@ public static class ServiceExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IMessageRepository, MessageRepository>();
-        services.AddScoped<IFileRepository, FileRepository>();
+        services.AddSignalR();
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
         services.AddScoped<MessageService>();
+        services.AddScoped<MetadataService>();
+        services.AddScoped<ICacheRepository, CacheRepository>();
+        services.AddScoped<CacheService>();
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<FileService>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IMetadataRepository, MetadataRepository>();
         services.AddMassTransit(config =>
         {
             config.AddConsumer<MessageConsumer>();
+            config.AddConsumer<FileUploadConsumer>();
             config.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(configuration.GetRequiredSection("Rabbit:DockerImage").Value, "/", h =>
@@ -29,6 +37,7 @@ public static class ServiceExtension
                 {
                     e.Bind(configuration.GetRequiredSection("Rabbit:ExchangeName").Value);
                     e.ConfigureConsumer<MessageConsumer>(context);
+                    e.ConfigureConsumer<FileUploadConsumer>(context);
                 });
                 cfg.ConfigureEndpoints(context);
             });

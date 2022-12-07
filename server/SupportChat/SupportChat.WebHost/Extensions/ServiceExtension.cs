@@ -2,11 +2,6 @@
 using SupportChat.Domain.Interfaces;
 using SupportChat.Domain.Repositories;
 using SupportChat.Infrastructure.Services;
-using Amazon.S3;
-using Amazon;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using SupportChat.Domain.Configurations;
 
 namespace SupportChat.WebHost.Extensions;
 
@@ -18,8 +13,12 @@ public static class ServiceExtension
         services.AddEndpointsApiExplorer();
         services.AddSignalR();
         services.AddScoped<IMessageRepository, MessageRepository>();
-        services.AddScoped<IFileRepository, FileRepository>();
+        services.AddScoped<IMetadataRepository, MetadataRepository>();
         services.AddScoped<MessageService>();
+        services.AddScoped<MetadataService>();
+        services.AddScoped<CacheService>();
+        services.AddScoped<ICacheRepository, CacheRepository>();
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<FileService>();
         services.AddMassTransit(config =>
         {

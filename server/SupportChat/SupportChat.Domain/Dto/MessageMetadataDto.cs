@@ -2,11 +2,11 @@
 
 namespace SupportChat.Domain.Dto;
 
-public class MessageFileMetadataDto
+public class MessageMetadataDto
 {
     public string Content { get; set; } = null!;
     
     public DateTime Time { get; set; }
 
-    public FileMetadata FileMetadata { get; set; } = null!;
+    public Metadata Metadata { get; set; } = null!;
 }

@@ -1,14 +1,10 @@
-﻿using SupportChat.Domain.Models.Files;
-
-namespace SupportChat.Domain.Interfaces;
+﻿namespace SupportChat.Domain.Interfaces;
 
 public interface IFileRepository
 {
-    Task<FileMetadata> GetFileMetadataWithFilter(string messageId);
+    Task<string> SaveFileAsync(Stream stream, string bucketName, string? key = null);
 
-    Task<FileMetadata> CreateFileMetadataAsync(FileMetadata newFile);
+    Task<Stream?> DownloadFileAsync(string fileId, string bucketName);
 
-    Task<Guid> SaveFileAsync(Stream stream, string fileName, string contentType);
-
-    Task<Stream?> DownloadFileAsync(Guid fileId);
+    Task MoveFileToPersistantBucketAsync(string sourceBucket, string destinationBucket, string key);
 }

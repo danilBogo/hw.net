@@ -33,3 +33,11 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+
+  redis:
+    image: bitnami/redis
+    ports:
+      - '6379:6379'
+    environment:
+      REDIS_REPLICATION_MODE: 'master'
+      ALLOW_EMPTY_PASSWORD: 'yes'

@@ -15,14 +15,14 @@ public class ChatHub : Hub
         _bus = bus;
     }
 
-    public async Task Send(string message, FileMetadata fileMetadata)
+    public async Task Send(string message, Metadata metadata)
     {
-        await _bus.Publish(new MessageFileMetadataDto
+        await _bus.Publish(new MessageMetadataDto
         {
             Content = message,
             Time = DateTime.Now,
-            FileMetadata = fileMetadata
+            Metadata = metadata
         });
-        await Clients.All.SendAsync("Send", message, fileMetadata);
+        await Clients.All.SendAsync("Send", message, metadata);
     }
 }

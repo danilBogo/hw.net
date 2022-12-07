@@ -1,88 +1,79 @@
-﻿import React, {useEffect, useState} from 'react';
+﻿import React, {useEffect, useRef, useState} from 'react';
 import {format} from 'date-fns';
 import $api from "../http";
-import {MessageFileMetadataDto} from "../dto/MessageFileMetadataDto";
+import {MessageMetadataDto} from "../dto/MessageMetadataDto";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
-import {FileMetadata} from "../dto/FileMetadataDto";
 import {MessageDto} from "../dto/MessageDto";
 import {OneMessageComponent} from "./OneMessageComponent";
+import {MetadataDto} from "../dto/MetadataDto";
+import {Guid} from "guid-typescript";
+import {SaveMetadataDto} from "../dto/SaveMetadataDto";
 
 function Message() {
-    const [data, setData] = useState<MessageFileMetadataDto[]>([]);
+    const [data, setData] = useState<MessageMetadataDto[]>([]);
     const [msg, setMsg] = useState("");
+    const metadata = useRef<MetadataDto>();
     const [hubConnection, setConnection] = useState<HubConnection>();
-    const [selectedFile, setSelectedFile] = useState<File>();
+    const [fileUploadedSignalRConnection, setFileUploadedSignalRConnection] = useState<HubConnection>();
 
     useEffect(() => {
         const connection = new HubConnectionBuilder()
             .withUrl(`${process.env.REACT_APP_SERVER_URL}/chatSignalR`)
             .build();
-        try {
-            connection.start().then(() => {
-                connection.on("Send", (message: string, fileMetadata: FileMetadata) => {
-                        const newMsg: MessageFileMetadataDto = {
-                            content: message,
-                            time: format(new Date(Date.now()).setHours(new Date(Date.now()).getHours() - 3), 'yyyy/MM/dd kk:mm:ss'),
-                            fileMetadata: fileMetadata
-                        };
-                        setData((prev) => !prev ? [newMsg] : [...prev, newMsg]);
-                    }
-                );
-            })
-        } catch (e) {
-            console.log(e);
-        }
+        connection.on("Send", (message: string, metadata: MetadataDto) => {
+                const newMsg: MessageMetadataDto = {
+                    content: message,
+                    time: format(new Date(Date.now()).setHours(new Date(Date.now()).getHours() - 3), 'yyyy/MM/dd kk:mm:ss'),
+                    metadata: metadata
+                };
+                setData((prev) => !prev ? [newMsg] : [...prev, newMsg]);
+            }
+        );
+        
+        const fileUploadedSignalRConnection = new HubConnectionBuilder()
+            .withUrl(`${process.env.REACT_APP_CONSUMER_URL}/fileUploadedSignalR`)
+            .build();
+        fileUploadedSignalRConnection.on("ReceiveMessage", (message: string, fileId: string) => {
+            alert(message);
+            metadata.current.fileId = fileId;
+        });
+        
+        connection.start().then();
+        fileUploadedSignalRConnection.start().then();
+        
         setConnection(connection);
+        setFileUploadedSignalRConnection(fileUploadedSignalRConnection);
         getMessagesHistory().then(value => {
             if (value && value.length > 0)
                 value!.forEach(item => {
-                    let messageFileMetadata: MessageFileMetadataDto = {
+                    let messageMetadata: MessageMetadataDto = {
                         content: item.content,
                         time: item.time,
-                        fileMetadata: null
+                        metadata: null
                     };
+                    console.log(item);
                     if (item?.fileId?.length > 0) {
-                        getFileForMessage(item.fileId).then(res => {
-                            messageFileMetadata.fileMetadata = res!
-                            setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
+                        getMetadataByFileId(item.fileId).then(res => {
+                            messageMetadata.metadata = res!
+                            setData((prev) => !prev ? [messageMetadata] : [...prev, messageMetadata])
                         });
                     } else
-                        setData((prev) => !prev ? [messageFileMetadata] : [...prev, messageFileMetadata])
+                        setData((prev) => !prev ? [messageMetadata] : [...prev, messageMetadata])
                 });
         });
     }, [])
 
     const sendMessage = async () => {
-        const formData = new FormData();
-        let fileMetadata: FileMetadata = {
-            id: "",
-            extension: "",
-            contentType: "",
-            size: 0,
-            name: "",
-            fileId: ""
-        };
-        if (selectedFile) {
-            formData.set('file', selectedFile!);
-            $api.post("/filemetadata", formData).then((res) => {
-                fileMetadata = {
-                    id: res.data.id,
-                    extension: res.data.extension,
-                    contentType: res.data.contentType,
-                    size: res.data.size,
-                    name: res.data.name,
-                    fileId: res.data.fileId
-                }
-                hubConnection!.invoke("Send", msg, fileMetadata).then(() => {
-                    setMsg("");
-                });
-                setSelectedFile(undefined);
-            });
-        } else {
-            hubConnection!.invoke("Send", msg, fileMetadata).then(() => {
-                setMsg("");
-            });
+        if (metadata?.current?.fileId == null || metadata.current.fileId.length === 0)
+        {
+            alert("Нельзя отправить сообщение пока файл не загрузился");
+            return;
         }
+        console.log(metadata);
+        hubConnection!.invoke("Send", msg, metadata.current).then(() => {
+            setMsg("");
+            metadata.current = undefined;
+        });
     }
 
     function getMessagesHistory() {
@@ -91,55 +82,66 @@ function Message() {
                 if (res.data.length > 0)
                     return res.data;
             } else
-                console.error('ашипка палучения истори')
+                console.error('can not get messages history')
         });
     }
 
-    function getFileForMessage(fileId: string) {
-        return $api.get<FileMetadata>(`/filemetadata`, {params: {fileId: fileId}})
+    function getMetadataByFileId(fileId: string) {
+        return $api.get<MetadataDto>(`/metadata`, {params: {fileId: fileId}})
             .then((res) => {
                 if (res.status === 200) {
                     return res.data;
                 } else
-                    console.error('ашипка палучения файла')
+                    console.error('can not get metadata by fileId')
             });
     }
 
     const handleChange = (event: any) => {
-        setSelectedFile(event.target.files[0]);
-    };
+        const currentFile = event.target.files[0];
+        let answer = window.confirm(`Вы уверены, что хотите загрузить файл ${currentFile?.name}?`);
+        if (!answer)
+            return;
+        const requestId = Guid.create().toString().toUpperCase();
+        const currentMetadata: MetadataDto = {
+            id: "",
+            name: event.target.files[0].name,
+            contentType: event.target.files[0].type,
+            value: "random-string" + Guid.create().toString(),
+            fileId: ""
+        };
+        metadata.current = currentMetadata;
 
+        const saveMetadata: SaveMetadataDto = {
+            requestId: requestId,
+            metadata: currentMetadata,
+            userId: fileUploadedSignalRConnection.connectionId
+        };
+        $api.post("/metadata", saveMetadata).then(() => console.log("метаданные загрузились"));
+        
+        const fileFormData = new FormData();
+        fileFormData.set('File', currentFile!);
+        fileFormData.append('RequestId', requestId);
+        fileFormData.append('UserId', fileUploadedSignalRConnection.connectionId);
+        $api.post("/file", fileFormData).then(() => console.log("файл загрузился"));
+        
+    };
 
     return (
         <div>
             {
                 data?.map((value, index) =>
-                        <div key={index}>
-                            <OneMessageComponent
-                                content={value.content}
-                                fileMetadata={value.fileMetadata}
-                                time={value.time}/>
-                        </div>
-
-                    /*<div key={index}>
-                        <p>Message: {value.content}</p>
-                        <p>Time: {format(new Date(value.time).setHours(new Date(value.time).getHours() + 3), 'yyyy/MM/dd kk:mm:ss')}</p>
-                        {value.fileMetadata && value.fileMetadata.id.length > 0 ? (<>
-                            <a href={getUrl(value.fileMetadata.id, value.fileMetadata.contentType)} download>Скачать
-                                файл</a>
-                            <p>Size: {value.fileMetadata.size}</p>
-                            <p>ContentType: {value.fileMetadata.contentType}</p>
-                            <p>Extension: {value.fileMetadata.extension}</p>
-                        </>) : null}
-                        <br/>
-                        <br/>
-                    </div>*/
+                    <div key={index}>
+                        <OneMessageComponent
+                            content={value.content}
+                            metadata={value.metadata}
+                            time={value.time}/>
+                    </div>
                 )
             }
             <textarea value={msg} onChange={(e) => setMsg(e.target.value)}/>
             <br/>
             <button onClick={sendMessage}>Отправить</button>
-            <input type="file" onChange={handleChange} accept={".png,.txt"}/>
+            <input type="file" onChange={handleChange}/>
         </div>
     );
 }

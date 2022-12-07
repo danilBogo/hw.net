@@ -20,7 +20,6 @@ public class ChatController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<Message>> Message()
     {
-        var result = await _messageService.GetMessageHistoryAsync();
         return await _messageService.GetMessageHistoryAsync();
     }
 }

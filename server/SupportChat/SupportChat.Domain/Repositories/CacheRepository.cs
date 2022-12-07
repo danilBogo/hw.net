@@ -1,26 +1,35 @@
-﻿using EasyCaching.Core;
+﻿using StackExchange.Redis;
 using SupportChat.Domain.Interfaces;
 
 namespace SupportChat.Domain.Repositories;
 
 public class CacheRepository : ICacheRepository
 {
-    private readonly IRedisCachingProvider _provider;
+    private readonly IConnectionMultiplexer _connectionMultiplexer;
 
-    public CacheRepository(IEasyCachingProviderFactory factory)
+    public CacheRepository(IConnectionMultiplexer connectionMultiplexer)
     {
-        _provider = factory.GetRedisProvider("default");
+        _connectionMultiplexer = connectionMultiplexer;
     }
 
-    public async Task<bool> Add(string key, string value)
+    public async Task Add(string key, string value)
     {
-        var result = await _provider.StringSetAsync(key, value);
-        // if (result)
-        // {
-        //     _provider.IncrByAsync();
-        // }
-        return await _provider.StringSetAsync(key, value);
+        var database = _connectionMultiplexer.GetDatabase();
+        await database.HashSetAsync(key, key, value);
     }
 
-    public async Task<string> GetByKey(string key) => await _provider.StringGetAsync(key);
+    public async Task Incr(string incrKey)
+    {
+        var database = _connectionMultiplexer.GetDatabase();
+        await database.HashIncrementAsync(incrKey, incrKey);
+    }
+
+    public async Task<string> GetByKey(string key)
+    {
+        var database = _connectionMultiplexer.GetDatabase();
+        var result = await database.HashGetAsync(key, key);
+        if (result.IsNull)
+            throw new Exception("Value in redis is not exists");
+        return result!;
+    }
 }
