@@ -30,9 +30,8 @@ public class FileUploadConsumer : IConsumer<FileUploadDto>
     public async Task Consume(ConsumeContext<FileUploadDto> context)
     {
         var requestIdKey = context.Message.RequestId;
-        await _cacheService.Incr(requestIdKey);
-        var value = await _cacheService.GetByHeaderKeyAndRequestId(RedisHeaderRecord.Counter, requestIdKey);
-        if (long.TryParse(value, out var longValue) && longValue == 2)
+        var value = await _cacheService.Incr(requestIdKey);
+        if (value == 2)
         {
             var fileId = await _cacheService.GetByHeaderKeyAndRequestId(RedisHeaderRecord.FileId, requestIdKey);
             await _fileService.MoveFileToPersistantBucketAsync(AmazonConstants.TempBucketName,

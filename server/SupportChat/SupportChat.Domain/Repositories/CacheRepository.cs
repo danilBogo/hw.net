@@ -18,10 +18,10 @@ public class CacheRepository : ICacheRepository
         await database.HashSetAsync(key, key, value);
     }
 
-    public async Task Incr(string incrKey)
+    public async Task<long> Incr(string incrKey)
     {
         var database = _connectionMultiplexer.GetDatabase();
-        await database.HashIncrementAsync(incrKey, incrKey);
+        return await database.HashIncrementAsync(incrKey, incrKey);
     }
 
     public async Task<string> GetByKey(string key)

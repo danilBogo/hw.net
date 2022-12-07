@@ -20,10 +20,10 @@ public class CacheService
         await _cacheRepository.Add(key, value);
     }
 
-    public async Task Incr(string requestId)
+    public async Task<long> Incr(string requestId)
     {
         var incrKey = GetKeyByHeaderAndRequestId(RedisHeaderRecord.Counter, requestId);
-        await _cacheRepository.Incr(incrKey);
+        return await _cacheRepository.Incr(incrKey);
     }
 
     public async Task<string> GetByKey(string key) => await _cacheRepository.GetByKey(key);

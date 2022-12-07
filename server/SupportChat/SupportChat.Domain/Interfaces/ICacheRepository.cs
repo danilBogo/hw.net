@@ -6,5 +6,5 @@ public interface ICacheRepository
 
     public Task<string> GetByKey(string key);
 
-    public Task Incr(string incrKey);
+    public Task<long> Incr(string incrKey);
 }
