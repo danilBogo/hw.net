@@ -10,7 +10,6 @@
     <ItemGroup>
       <ProjectReference Include="..\SupportChat.Domain\SupportChat.Domain.csproj" />
       <ProjectReference Include="..\SupportChat.Infrastructure\SupportChat.Infrastructure.csproj" />
-      <ProjectReference Include="..\SupportChat.WebHost\SupportChat.WebHost.csproj" />
     </ItemGroup>
 
     <ItemGroup>

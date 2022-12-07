@@ -7,7 +7,7 @@ using SupportChat.Domain.Dto;
 using SupportChat.Domain.Enums;
 using SupportChat.Domain.Models.Files;
 using SupportChat.Infrastructure.Services;
-using SupportChat.WebHost.SignalR;
+using SupportChat.RabbitMQListener.SignalR;
 
 namespace SupportChat.RabbitMQListener.Consumers;
 
@@ -16,10 +16,10 @@ public class FileUploadConsumer : IConsumer<FileUploadDto>
     private readonly CacheService _cacheService;
     private readonly FileService _fileService;
     private readonly MetadataService _metadataService;
-    private readonly IHubContext<ChatHub> _hub;
+    private readonly IHubContext<FileUploadedHub> _hub;
 
     public FileUploadConsumer(CacheService cacheService, FileService fileService, MetadataService metadataService,
-        IHubContext<ChatHub> hub)
+        IHubContext<FileUploadedHub> hub)
     {
         _cacheService = cacheService;
         _fileService = fileService;
@@ -44,7 +44,6 @@ public class FileUploadConsumer : IConsumer<FileUploadDto>
             metadata.FileId = fileId;
             await _metadataService.CreateMetadataAsync(metadata);
             await _hub.Clients.Client(context.Message.UserId).SendAsync("ReceiveMessage", "Файл был успешно загружен", fileId);
-            // await _hub.Clients.All.SendAsync("ReceiveMessage", "Файл был успешно загружен", fileId);
         }
     }
 }

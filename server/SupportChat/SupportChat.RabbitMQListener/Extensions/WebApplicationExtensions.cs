@@ -1,4 +1,4 @@
-﻿using SupportChat.WebHost.SignalR;
+﻿using SupportChat.RabbitMQListener.SignalR;
 
 namespace SupportChat.RabbitMQListener.Extensions;
 
@@ -15,7 +15,7 @@ public static class WebApplicationExtensions
                 .AllowAnyHeader()
                 .AllowCredentials()
             );
-        app.UseEndpoints(endpoints => { endpoints.MapHub<ChatHub>("/fileUploadedSignalR"); });
+        app.UseEndpoints(endpoints => { endpoints.MapHub<FileUploadedHub>("/fileUploadedSignalR"); });
         return app;
     }
 }
