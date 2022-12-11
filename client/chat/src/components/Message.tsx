@@ -64,13 +64,20 @@ function Message() {
     }, [])
 
     const sendMessage = async () => {
-        if (metadata !== null && (metadata.current?.fileId === null || metadata.current.fileId.length === 0))
+        if (metadata.current != undefined && (metadata.current?.fileId === null || metadata.current.fileId.length === 0))
         {
             alert("Нельзя отправить сообщение пока файл не загрузился");
             return;
         }
         console.log(metadata);
-        hubConnection!.invoke("Send", msg, metadata.current).then(() => {
+        const currentMetadata: MetadataDto = {
+            id: "",
+            name: "",
+            contentType: "",
+            value: "",
+            fileId: ""
+        };
+        hubConnection!.invoke("Send", msg, metadata.current == undefined ? currentMetadata : metadata.current).then(() => {
             setMsg("");
             metadata.current = undefined;
         });

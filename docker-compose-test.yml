@@ -2,11 +2,11 @@ services:
   database:
     image: postgres:14-alpine
     ports:
-      - '5432:5432'
+      - '54320:5432'
     environment:
       POSTGRES_DB: "SupportChatDatabase"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_PASSWORD: "postgrespw"
   
   rabbit-mq:
     image: rabbitmq:3.7-management
