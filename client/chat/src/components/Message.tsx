@@ -15,6 +15,7 @@ function Message() {
     const metadata = useRef<MetadataDto>();
     const [hubConnection, setConnection] = useState<HubConnection>();
     const [fileUploadedSignalRConnection, setFileUploadedSignalRConnection] = useState<HubConnection>();
+    const [metadataValue, setMetadataValue] = useState('');
 
     useEffect(() => {
         const connection = new HubConnectionBuilder()
@@ -64,7 +65,9 @@ function Message() {
     }, [])
 
     const sendMessage = async () => {
-        if (metadata.current != undefined && (metadata.current?.fileId === null || metadata.current.fileId.length === 0))
+        console.log(metadata.current);
+        if(metadata.current != undefined && metadata.current?.name != '' && (metadata.current?.fileId === null || metadata?.current.fileId.length === 0))
+        //if (metadata.current != undefined || metadata.current?.name != "" && (metadata.current?.fileId === null || metadata?.current.fileId.length === 0))
         {
             alert("Нельзя отправить сообщение пока файл не загрузился");
             return;
@@ -79,7 +82,8 @@ function Message() {
         };
         hubConnection!.invoke("Send", msg, metadata.current == undefined ? currentMetadata : metadata.current).then(() => {
             setMsg("");
-            metadata.current = undefined;
+            setMetadataValue("");
+            metadata.current = currentMetadata;
         });
     }
 
@@ -109,18 +113,16 @@ function Message() {
         if (!answer)
             return;
         const requestId = Guid.create().toString().toUpperCase();
-        const currentMetadata: MetadataDto = {
-            id: "",
-            name: event.target.files[0].name,
-            contentType: event.target.files[0].type,
-            value: "random-string" + Guid.create().toString(),
-            fileId: ""
-        };
-        metadata.current = currentMetadata;
 
+        console.log(metadata);
+
+        metadata.current.name = event.target.files[0].name;
+        metadata.current.contentType = event.target.files[0].type;
+        
+        
         const saveMetadata: SaveMetadataDto = {
             requestId: requestId,
-            metadata: currentMetadata,
+            metadata: metadata.current,
             userId: fileUploadedSignalRConnection.connectionId
         };
         $api.post("/metadata", saveMetadata).then(() => console.log("метаданные загрузились"));
@@ -132,7 +134,7 @@ function Message() {
         $api.post("/file", fileFormData).then(() => console.log("файл загрузился"));
         
     };
-
+    
     return (
         <div>
             {
@@ -145,7 +147,20 @@ function Message() {
                     </div>
                 )
             }
+            <p>input message:</p>
             <textarea value={msg} onChange={(e) => setMsg(e.target.value)}/>
+            <br/>
+            <p>input metadata:</p>
+            <textarea value={metadataValue} onChange={(e) => {
+                metadata.current = {
+                    id: "",
+                    name: "",
+                    contentType: "",
+                    value: e.target.value,
+                    fileId: ""
+                }
+                setMetadataValue(e.target.value)
+            }}/>
             <br/>
             <button onClick={sendMessage}>Отправить</button>
             <input type="file" onChange={handleChange}/>
