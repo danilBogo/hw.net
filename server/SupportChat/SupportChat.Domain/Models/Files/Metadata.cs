@@ -13,5 +13,5 @@ public class Metadata
     public string ContentType { get; set; } = null!;
 
     public string Value { get; set; } = null!;
-    public string FileId { get; set; } = null!;
+    public string? FileId { get; set; }
 }

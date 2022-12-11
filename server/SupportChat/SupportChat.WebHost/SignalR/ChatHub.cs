@@ -17,12 +17,15 @@ public class ChatHub : Hub
 
     public async Task Send(string message, Metadata metadata)
     {
-        await _bus.Publish(new MessageMetadataDto
+        if (metadata.FileId != null)
         {
-            Content = message,
-            Time = DateTime.Now,
-            Metadata = metadata
-        });
+            await _bus.Publish(new MessageMetadataDto
+            {
+                Content = message,
+                Time = DateTime.Now,
+                Metadata = metadata
+            });
+        }
         await Clients.All.SendAsync("Send", message, metadata);
     }
 }

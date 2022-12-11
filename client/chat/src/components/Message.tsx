@@ -64,7 +64,7 @@ function Message() {
     }, [])
 
     const sendMessage = async () => {
-        if (metadata?.current?.fileId == null || metadata.current.fileId.length === 0)
+        if (metadata !== null && (metadata.current?.fileId === null || metadata.current.fileId.length === 0))
         {
             alert("Нельзя отправить сообщение пока файл не загрузился");
             return;

@@ -18,7 +18,7 @@ export const OneMessageComponent = (props: MessageMetadataDto) => {
                    download>Скачать
                     файл</a>
                 <p>ContentType: {metadata.contentType}</p>
-                <p>ContentType: {metadata.value}</p>
+                <p>Metadata: {metadata.value}</p>
             </>) : null}
             <br/>
             <br/>
