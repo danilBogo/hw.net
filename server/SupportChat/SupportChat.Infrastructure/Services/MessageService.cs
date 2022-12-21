@@ -12,9 +12,10 @@ public class MessageService
         _messageRepository = messageRepository;
     }
 
-    public async Task<IEnumerable<Message>> GetMessageHistoryAsync()
+    public async Task<IEnumerable<Message>> GetMessageHistoryByUserNameAndInterlocutorNameAsync(string userName,
+        string? interlocutor)
     {
-        return await _messageRepository.GetAllAsync();
+        return await _messageRepository.GetByUserNameAsync(userName, interlocutor);
     }
 
     public async Task AddMessageAsync(Message message)

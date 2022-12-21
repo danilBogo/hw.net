@@ -22,9 +22,12 @@ public class MessageRepository : IMessageRepository
         return entityEntry.Entity;
     }
 
-    public async Task<IEnumerable<Message>> GetAllAsync() => 
-        await _context.Messages.OrderBy(m => m.Time).ToListAsync();
+    public async Task<IEnumerable<Message>> GetByUserNameAsync(string userName, string? interlocutor) =>
+        await _context.Messages
+            .Where(m => m.UserName == userName && m.InterlocutorName == interlocutor || 
+                        m.UserName == interlocutor && m.InterlocutorName == userName)
+            .OrderBy(m => m.Time)
+            .ToListAsync();
 
-    public async Task SaveChangesAsync() =>
-        await _context.SaveChangesAsync();
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }

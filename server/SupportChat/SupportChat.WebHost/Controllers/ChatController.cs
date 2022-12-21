@@ -18,9 +18,13 @@ public class ChatController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Message>> Message()
+    public async Task<IEnumerable<Message>> Message(string userName)
     {
-        return await _messageService.GetMessageHistoryAsync();
+        var interlocutor = userName.Contains("admin")
+            ? UserService.HashSet
+                .FirstOrDefault(e => e.AdminName == userName && e.UserName is not null)?.UserName
+            : UserService.HashSet
+                .FirstOrDefault(e => e.UserName == userName && e.AdminName is not null)?.AdminName;
+        return await _messageService.GetMessageHistoryByUserNameAndInterlocutorNameAsync(userName, interlocutor);
     }
 }
-

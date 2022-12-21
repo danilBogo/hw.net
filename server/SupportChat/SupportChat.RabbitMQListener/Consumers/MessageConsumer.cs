@@ -21,6 +21,8 @@ public class MessageConsumer : IConsumer<MessageMetadataDto>
         var message = new Message
         {
             Content = context.Message.Content,
+            UserName = context.Message.UserName,
+            InterlocutorName = context.Message.InterlocutorName,
             Time = context.Message.Time,
             FileId = context.Message.Metadata.FileId
         };

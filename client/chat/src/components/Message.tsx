@@ -16,11 +16,49 @@ function Message() {
     const [hubConnection, setConnection] = useState<HubConnection>();
     const [fileUploadedSignalRConnection, setFileUploadedSignalRConnection] = useState<HubConnection>();
     const [metadataValue, setMetadataValue] = useState('');
+    const username = useRef<string>();
 
     useEffect(() => {
+        const result = prompt('Авторизуйтесь:');
+        if (!result)
+            return;
+        username.current = result;
         const connection = new HubConnectionBuilder()
             .withUrl(`${process.env.REACT_APP_SERVER_URL}/chatSignalR`)
             .build();
+
+        connection.start().then(() => {
+            connection.invoke("RegisterUser", result, connection.connectionId).then(() => {
+                if (result.includes("admin"))
+                    alert("Успешно авторизовались, ожидайте пользователя");
+                else
+                    alert("Успешно авторизовались, ожидайте администратора");
+            });
+        });
+
+        connection.on("NotificateAdminUser", (message: string) => {
+            setTimeout(() => alert(message), 1000);
+            setData(undefined);
+            getMessagesHistory(result).then(value => {
+                if (value && value.length > 0)
+                    value!.forEach(item => {
+                        let messageMetadata: MessageMetadataDto = {
+                            content: item.content,
+                            time: item.time,
+                            metadata: null
+                        };
+                        console.log(item);
+                        if (item?.fileId?.length > 0) {
+                            getMetadataByFileId(item.fileId).then(res => {
+                                messageMetadata.metadata = res!
+                                setData((prev) => !prev ? [messageMetadata] : [...prev, messageMetadata])
+                            });
+                        } else
+                            setData((prev) => !prev ? [messageMetadata] : [...prev, messageMetadata])
+                    });
+            });
+        });
+        
         connection.on("Send", (message: string, metadata: MetadataDto) => {
                 const newMsg: MessageMetadataDto = {
                     content: message,
@@ -39,12 +77,11 @@ function Message() {
             metadata.current.fileId = fileId;
         });
         
-        connection.start().then();
         fileUploadedSignalRConnection.start().then();
         
         setConnection(connection);
         setFileUploadedSignalRConnection(fileUploadedSignalRConnection);
-        getMessagesHistory().then(value => {
+        getMessagesHistory(result).then(value => {
             if (value && value.length > 0)
                 value!.forEach(item => {
                     let messageMetadata: MessageMetadataDto = {
@@ -67,12 +104,10 @@ function Message() {
     const sendMessage = async () => {
         console.log(metadata.current);
         if(metadata.current != undefined && metadata.current?.name != '' && (metadata.current?.fileId === null || metadata?.current.fileId.length === 0))
-        //if (metadata.current != undefined || metadata.current?.name != "" && (metadata.current?.fileId === null || metadata?.current.fileId.length === 0))
         {
             alert("Нельзя отправить сообщение пока файл не загрузился");
             return;
         }
-        console.log(metadata);
         const currentMetadata: MetadataDto = {
             id: "",
             name: "",
@@ -80,15 +115,16 @@ function Message() {
             value: "",
             fileId: ""
         };
-        hubConnection!.invoke("Send", msg, metadata.current == undefined ? currentMetadata : metadata.current).then(() => {
+        
+        hubConnection!.invoke("Send", msg, username.current, hubConnection.connectionId, metadata.current == undefined ? currentMetadata : metadata.current).then(() => {
             setMsg("");
             setMetadataValue("");
             metadata.current = currentMetadata;
         });
     }
 
-    function getMessagesHistory() {
-        return $api.get<MessageDto[]>("/chat").then((res) => {
+    function getMessagesHistory(userName: string) {
+        return $api.get<MessageDto[]>(`/chat?userName=${userName}`).then((res) => {
             if (res.status === 200) {
                 if (res.data.length > 0)
                     return res.data;
@@ -111,13 +147,23 @@ function Message() {
         const currentFile = event.target.files[0];
         let answer = window.confirm(`Вы уверены, что хотите загрузить файл ${currentFile?.name}?`);
         if (!answer)
+        {
+            event.target.value = null;
             return;
+        }
         const requestId = Guid.create().toString().toUpperCase();
-
-        console.log(metadata);
-
-        metadata.current.name = event.target.files[0].name;
-        metadata.current.contentType = event.target.files[0].type;
+        
+        if (!metadata.current){
+            metadata.current = {
+                id: "",
+                name: "",
+                contentType: "",
+                value: "",
+                fileId: ""
+            }
+        }
+        metadata.current.name = currentFile.name;
+        metadata.current.contentType = currentFile.type;
         
         
         const saveMetadata: SaveMetadataDto = {
@@ -152,18 +198,23 @@ function Message() {
             <br/>
             <p>input metadata:</p>
             <textarea value={metadataValue} onChange={(e) => {
-                metadata.current = {
-                    id: "",
-                    name: "",
-                    contentType: "",
-                    value: e.target.value,
-                    fileId: ""
+                if (!metadata.current){
+                    metadata.current = {
+                        id: "",
+                        name: "",
+                        contentType: "",
+                        value: "",
+                        fileId: ""
+                    }
                 }
+                metadata.current.value = e.target.value;
                 setMetadataValue(e.target.value)
             }}/>
             <br/>
             <button onClick={sendMessage}>Отправить</button>
-            <input type="file" onChange={handleChange}/>
+            <input type="file" onChange={handleChange} onClick={(event: any)=> {
+                event.target.value = null
+            }}/>
         </div>
     );
 }

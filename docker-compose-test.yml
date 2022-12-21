@@ -13,12 +13,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-        
+  
   mongo:
     image: mongo
     ports:
       - 27017:27017
-        
+  
   minio:
     image: minio/minio
     command: server --console-address ":9001" /data/
@@ -41,3 +41,12 @@ services:
     environment:
       REDIS_REPLICATION_MODE: 'master'
       ALLOW_EMPTY_PASSWORD: 'yes'
+  
+  mvc:
+    container_name: mvc
+    restart: always
+    build:
+      context: server/TimMovie
+      dockerfile: Dockerfile
+    ports:
+      - '8084:80'

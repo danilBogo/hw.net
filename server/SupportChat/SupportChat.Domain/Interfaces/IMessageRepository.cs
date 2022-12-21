@@ -5,5 +5,5 @@ namespace SupportChat.Domain.Interfaces;
 public interface IMessageRepository
 {
     Task<Message> AddAsync(Message item);
-    Task<IEnumerable<Message>> GetAllAsync();
+    Task<IEnumerable<Message>> GetByUserNameAsync(string userName, string? interlocutor);
 }

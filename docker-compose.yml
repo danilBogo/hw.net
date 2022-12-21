@@ -76,3 +76,12 @@ services:
     environment:
       REDIS_REPLICATION_MODE: 'master'
       ALLOW_EMPTY_PASSWORD: 'yes'
+
+  mvc:
+    container_name: mvc
+    restart: always
+    build:
+      context: server/TimMovie
+      dockerfile: Dockerfile
+    ports:
+      - '8084:80'

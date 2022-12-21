@@ -14,11 +14,6 @@ public class MetadataRepository : IMetadataRepository
         _database = database;
     }
 
-    // public MetadataRepository(IMongoDbConfiguration configuration)
-    // {
-    //     _database = new MongoClient(configuration.ConnectionString).GetDatabase(configuration.Database);
-    // }
-
     public async Task<Metadata> GetMetadataByFileIdAsync(string fileId) =>
         await Metadata.Find(f => f.FileId == fileId).FirstOrDefaultAsync();
 
