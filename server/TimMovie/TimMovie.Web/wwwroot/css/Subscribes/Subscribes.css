@@ -1,0 +1,126 @@
+﻿.subscribeCardInSubscribeSearch {
+    width: 230px;
+    /*height: 400px;*/
+    height: auto;
+    color: darkgrey;
+    padding: 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+
+.subscribeCardInSubscribeSearch-body-description {
+    height: 120px;
+    word-break: break-word;
+}
+
+.subscribe-body {
+    width: auto;
+}
+
+.subscribeCardInSubscribeSearch-body-price {
+    margin-top: 20px;
+}
+
+.subscribeCardInSubscribeSearch-header {
+    font-size: 21px;
+    color: rgb(187, 13, 58);
+    word-break: break-word;
+}
+
+.subscribeCardInSubscribeSearch-body-button {
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    margin-top: 15px;
+}
+
+.subscribeToBuy{
+    color: rgb(187, 13, 58);
+}
+
+.subscribeToBuy:hover{
+    cursor: pointer;
+    background: rgb(187, 13, 58);
+    color: white;
+}
+
+.subscribeToExtend{
+    color: #33673B;
+}
+
+.subscribeToExtend:hover{
+    cursor: pointer;
+    background: #33673B;
+    color: white;
+}
+
+
+.btn-films, .btn-genres {
+    padding: 2px;
+    margin-top: 5px;
+    background: rgb(187, 13, 58);
+    margin-right: 5px;
+    width: 100%;
+    color: white;
+}
+
+.subscribeCardInSubscribeSearch-body-buttons {
+    height: 70px;
+}
+
+.subscribeCard-price {
+    width: 80%;
+    text-align: end;
+}
+
+.subscribeCard-name {
+    width: auto;
+    margin-top: 6px;
+}
+
+.dropdown-menu.scrollable {
+    height: auto;
+    max-height: 30em;
+    overflow-x: hidden;
+}
+
+.subscribeCard-price {
+    color: rgb(187, 13, 58);
+    font-size: 21px;
+}
+
+.subscribeCard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 230px);
+    grid-column-gap: 35px;
+    grid-row-gap: 1em;
+    justify-content: center;
+}
+
+.subscribeCard-subscribe-active {
+    margin-top: 5px;
+    font-size: 14px;
+    height: 18px;
+}
+
+
+.subscribeCard-subscribe-active-title{
+    margin-top: 4px;
+    font-size: 11px;
+    width: 40%;
+}
+
+.subscribeCard-subscribe-active-date{
+    width: 60%;
+    text-align: end;
+}
+
+.subscribeCardInSubscribeSearch {
+    color: white;
+    background: #1e192d;
+}
+
+.subscribeCardInSubscribeSearch-body {
+    padding-bottom: 0.5rem;
+}

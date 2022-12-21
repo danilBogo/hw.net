@@ -1,0 +1,187 @@
+﻿@model TimMovie.Web.ViewModels.FilmViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.Title;
+    var mainGenreName = Model.Genres.First().Name;
+    bool isAuth = User.Identity.IsAuthenticated;
+}
+<div class="filmPage_container">
+    <a href="#" id="backward_link" class="hover_link">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 129 129"
+             xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px">
+            <path
+                d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z"/>
+        </svg>
+    </a>
+    <ul id="film_with_genre_links">
+        <li>
+            <a class="hover_link" asp-controller="Films" asp-action="Filters">Фильмы</a>
+        </li>
+        <li>&bull; <a class="hover_link" asp-controller="Films" asp-action="Filters" asp-route-genres="@mainGenreName">@mainGenreName</a></li>
+    </ul>
+
+    <div class="row mt-5" id="film-row">
+        <div class="col-xl-5 text_color order-xl-2" id="film_info_container">
+            <div id="film_info" class="mb-5">
+                <h1>@Model.Title</h1>
+                <ul id="film_links">
+                    <li>
+                    <a class="hover_link" asp-controller="Films" asp-action="Filters" asp-route-year="@Model.Year">@Model.Year</a>
+                    <li>
+                        <a class="hover_link" asp-controller="Films" asp-action="Filters" asp-route-countries="@Model.Country.Name">@Model.Country?.Name</a>
+                    </li>
+                </ul>
+                <ul>
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <li class="d-inline-block">&bull; <a class="hover_link" asp-controller="Films" asp-action="Filters" asp-route-genres="@genre.Name">@genre.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <div id="film_description">
+                <h2 class="text_color text_bold mt-4">О фильме</h2>
+                <div id="description">
+                    @Model.Description
+                </div>
+                <button id="more">Читать дальше...</button>
+            </div>
+        </div>
+        <div class="col-12 col-xl-7 order-xl-1" id="film_player">
+            <div class="ratio ratio-16x9">
+                @if (!Model.IsAvailable)
+                    {
+                        <div class="notAvailableFilmLabel d-flex align-items-center justify-content-center">
+                            <h3>У вас нет необходимой подписки</h3>
+                            <a class="hover_link" asp-controller="Subscribes" asp-action="Subscribes">Приобрести подписки от братвы</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <iframe src="@Model.FilmLink?rel=0&controls=2&modestbranding=1&showinfo=0"
+                                title="YouTube video" allowfullscreen style="border-radius: 16px;">
+                        </iframe>
+                    }
+                
+            </div>
+            <div class="d-flex flex-row-reverse justify-content-between align-items-center mt-2">
+                <div class="d-flex flex-column under_film_buttons">
+                    <button data-bs-toggle="modal" data-bs-target=@(isAuth ? "#modalFilmGrade" : "#modal1")
+                            class="buttons" id="rate_movie" data-auth="@isAuth">
+                        <svg class="svg-grade me-2"
+                             width="24px" height="24px"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="@(Model.IsGradeSet ? "#ef233c" : "#c6c6c9")">
+                            <use xlink:href="/img/svgIcons/sprite.svg#@(Model.IsGradeSet ? "Unlike" : "Like")"/>
+                        </svg>
+                        <span id="rate_movie_label">@(Model.IsGradeSet ? "Изменить оценку фильма" : "Поставить оценку фильму")</span>
+                    </button>
+                    <div class="d-flex justify-content-end">
+                        <button class="buttons" id="watch_later" data-auth="@isAuth" data-added="@Model.IsAddedToWatchLater">
+                            <svg class="watch_later_svg me-2"
+                                 width="24px" height="24px"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="#c6c6c9">
+                                <use xlink:href="/img/svgIcons/sprite.svg#@(Model.IsAddedToWatchLater ? "RemoveFromWatchLater" : "AddToWatchLater")"/>
+                            </svg>
+                            <span id="watch_later_label">@(Model.IsAddedToWatchLater ? "Убрать из смотреть" : "Смотреть") позже</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column justify-content-center text-center">
+                    <h1 class="text_color rating_label">@Model.Rating</h1>
+                    <span class="rating_under_label">Оценили: @Model.GradesNumber</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="film__line mt-4"></div>
+    <div class="d-flex flex-column mt-4">
+        <div class="h3">
+            Актеры и режиссеры
+        </div>
+        <div class="actors-producers__container mt-3">
+            @{
+                var amountActorForShow = 10 - Model.Producers.Count;
+                var actorsAndProducersMoreTen = Model.Producers.Count + Model.Actors.Count > 10;
+            }
+            @foreach (var producer in Model.Producers)
+            {
+                <a asp-controller="Person" asp-action="GetProducerPage" asp-route-id="@producer.Id" class="d-flex flex-column actors-producers__item__container" title="@producer.Name @producer.Surname">
+                    <img src=@producer.Photo class="actors-producers__item__img">
+                    <div class="d-flex flex-column mt-1">
+                        <div class="actors-producers__item__name">@producer.Name @producer.Surname</div>
+                        <div class="actors-producers__item__who">Продюсер</div>
+                    </div>
+                </a>
+            }
+            @foreach (var actor in Model.Actors.Take(amountActorForShow))
+            {
+                <a asp-controller="Person" asp-action="GetActorPage" asp-route-id="@actor.Id" class="d-flex flex-column actors-producers__item__container" title="@actor.Name @actor.Surname">
+                    <img src=@actor.Photo class="actors-producers__item__img">
+                    <div class="d-flex flex-column mt-1">
+                        <div class="actors-producers__item__name">@actor.Name @actor.Surname</div>
+                        <div class="actors-producers__item__who">Актёр</div>
+                    </div>
+                </a>
+            }
+            @if (actorsAndProducersMoreTen)
+            {
+                foreach (var actor in Model.Actors.Skip(amountActorForShow))
+                {
+                    <div class="actors-producers__item__container_show" title="@actor.Name @actor.Surname">
+                        <a asp-controller="Person" asp-action="GetActorPage" asp-route-id="@actor.Id" class="d-flex flex-column actors-producers__item__container">
+                            <img src=@actor.Photo class="actors-producers__item__img">
+                            <div class="d-flex flex-column mt-1">
+                                <div class="actors-producers__item__name">@actor.Name @actor.Surname</div>
+                                <div class="actors-producers__item__who">Актёр</div>
+                            </div>
+                        </a>
+                    </div>
+                }
+                <div id="actorsProducersMoreBtn">
+                    <div class="d-flex align-items-center justify-content-center actors-producers__more-btn">
+                        Еще
+                    </div>
+                </div>
+                <div id="actorsProducersHideBtn">
+                    <div class="d-flex align-items-center justify-content-center actors-producers__more-btn">
+                        Скрыть
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @{ await Html.RenderPartialAsync("~/Views/Grade/Grade.cshtml"); }
+    <div class="film__line mt-4"></div>
+    <div>
+        <div class="h3 mt-4">
+            Смотрите также
+        </div>
+        <vc:carousel genre-name="@mainGenreName" film-id-to-remove="@Model.Id"></vc:carousel>
+    </div>
+</div>
+
+@{ await Html.RenderPartialAsync("~/Views/Film/Comments.cshtml", (Model.Comments, Model.PathToUserPhoto)); }
+
+@section Styles
+{
+    <link rel="stylesheet" href="/css/filmPage.css"/>
+    <link rel="stylesheet" href="~/css/FilmCard/cardStyle.css"/>
+    <link rel="stylesheet" href="~/css/carousel.css"/>
+    <link rel="stylesheet" href="/css/gradeModalWindow.css">
+    <link rel="stylesheet" href="/css/comments.css">
+}
+
+@section Scripts{
+    <script src="~/js/filmPage.js"></script>
+    <script src="/js/Carousel_Script.js"></script>
+    <script src="~/js/FilmCard/animation_for_film_card.js"></script>
+    <script src="~/js/FilmCard/adaptive_container_with_film_card.js"></script>
+    <script src="~/js/gradeModalWindow.js"></script>
+    <script src="~/js/FilmCard/WatchLater.js"></script>
+    <script src="~/js/updateUserStatusWatchingFilm.js"></script>
+    <script src="~/js/svgLogic.js"></script>
+    <script src="~/js/FilmCard/WatchLater.js"></script>
+    <script src="~/js/comments.js"></script>
+}

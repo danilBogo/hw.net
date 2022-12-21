@@ -1,0 +1,63 @@
+﻿input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    caret-color: white !important;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 30px #100e19 inset !important;
+}
+
+.loginInput{
+    background-color: #100e19 !important;
+    height: 45px;
+    width: 100%;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 16px;
+    border: 2px solid #e2e0e7a4;
+    border-radius: 5px;
+    padding-left: 25px;
+}
+
+.loginInput:focus {
+    outline: none;
+    border: 2px solid whitesmoke;
+}
+
+.divider {
+    color: #405d87;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.vk-login{
+    max-width: 100%;
+    cursor: pointer;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.login-button-submit{
+    border-radius: 10px;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+    height: 45px;
+    background: linear-gradient(208deg, #0b060d, #17061d, #1b0830, #200430);
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 45px;
+    cursor: pointer;
+    border: none;
+}
+
+.login-button-submit:hover {
+    border-radius: 10px;
+    background: linear-gradient(208deg, #481c59, #521069, #430d7d, #5c068e);
+}

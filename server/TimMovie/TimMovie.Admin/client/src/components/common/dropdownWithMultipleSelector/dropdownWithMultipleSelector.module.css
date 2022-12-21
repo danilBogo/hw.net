@@ -1,0 +1,16 @@
+﻿.menuItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: gray;
+    cursor: pointer;
+    margin: 4px 6px;
+    line-height: 1.2em;
+}
+.menuItem:hover{
+    background-color: #8acafc;
+    color: #505050;
+}
+.menuItemActive{
+    color: black;
+}

@@ -1,0 +1,146 @@
+﻿.profile_card{
+    background: #1e192d;
+    width: 250px;
+    border-radius: 10px;
+}
+.left_container_profile{
+}
+.edit_profile_btn{
+    color: gray;
+    cursor: pointer;
+    text-decoration: none;
+}
+.edit_profile_btn:hover{
+    transition: all 0.2s ease-in-out 0s;
+    color: white;
+}
+.nickname_in_profile{
+    font-size: 1.25em;
+}
+.status_in_profile{
+    color: #cecece;
+    font-size: 0.85em;
+}
+.filmLinkInProfile {
+    color: #5f94b7;
+    cursor: pointer;
+    text-decoration: none;
+}
+.watching_status{
+    color: #5f94b7;
+}
+.filmLinkInProfile:hover{
+    transition: all 0.2s ease-in-out 0s;
+    color: white;
+}
+.empty_subscribes_in_profile{
+    height: 140px;
+}
+.link_on_subscribe_in_profile{
+    text-decoration: none;
+    color: #a1a1a1;
+    cursor: pointer;
+}
+.link_on_subscribe_in_profile:hover{
+    transition: all 0.2s ease-in-out 0s;
+    color: white;
+}
+.subscribeCardInProfile{
+    background: #1e192d;
+    border-radius: 10px;
+}
+.subscribeCardInProfile_title{
+    font-size: 1.25em;
+}
+.subscribeCardInProfile_description{
+    font-size: 0.85em;
+    color: #b6b6b6;
+}
+.subscribeCardInProfile_duration{
+    color: gray;
+    font-size: 0.9em;
+}
+.containerForSubscribeInProfile{
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 1.5em;
+    grid-row-gap: 1.5em;
+}
+.emptyFilmsInProfile{
+    fill: #bebebe;
+   color: #bebebe;
+}
+.online_status{
+    fill: #c3fdc3;
+    color: #c3fdc3;
+}
+.offline_status{
+    fill: #858585;
+    color: #858585;
+}
+.profile-card__edit-img{
+    right: 0;
+    bottom: 0;
+    margin: 0 3% 2% 0;
+    filter: drop-shadow( 2px -1px 3px black );
+    cursor: pointer;
+    fill: rgba(255, 255, 255, 0.75);
+}
+.profile-card__edit-img:hover{
+    fill: white;
+    transition: all 0.3s ease-out 0s;
+}
+.edit-profile-modal__current-img{
+    max-width: 250px;
+    max-height: 350px;
+}
+.edit-profile-modal__current-img__container{
+    border-right: 1px solid gray;
+}
+.edit-profile-modal__add-img-container{
+    background-color: #1e192d;
+    height: 300px;
+    border-radius: 5px;
+    border: 3px dashed #322b4d;
+    width: 600px;
+}
+.edit-profile-modal__add-img-icon{
+    fill: #423670;
+}
+.edit-profile-modal__add-img-container_active{
+    background-color: #14111e;
+}
+.edit-profile-modal__error-img{
+    color: red;
+    font-size: 0.8em;
+}
+.edit-user-info__container{
+    height: 200px;
+}
+.edit-user-info__display-name-container{
+    margin-bottom: 30px;
+}
+.edit-user-info__birthday-container{
+    margin-bottom: 30px;
+}
+.edit-user-info__modal{
+    margin-top: 150px;
+}
+.edit-user-info__input{
+    width: 200px;
+    margin-top: 10px;
+}
+.edit-user-info__error-message-input{
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.edit-user-info__common-error{
+    color: red;
+    font-size: 15px;
+    margin-top: 5px;
+}
+.close-modal{
+    margin-left: 300px;
+    margin-bottom: 30px;
+}
+

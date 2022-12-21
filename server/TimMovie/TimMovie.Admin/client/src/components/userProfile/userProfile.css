@@ -1,0 +1,80 @@
+* {
+    box-sizing: border-box;
+}
+
+.circleForIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E0C3FC;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+.btns {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
+    cursor: pointer;
+    height: 50px;
+    text-align: center;
+    font-size: 18px;
+    background-color: #8187DC;
+}
+
+.btns:hover {
+    font-weight: bold;
+    background-color: rgba(124, 150, 235, 1)
+}
+
+.circleBorders {
+    border-radius: 10px;
+}
+
+
+.dropDown-item {
+    cursor: pointer;
+    font-style: italic;
+}
+
+.dropDown-item:hover {
+    background-color: #8A8E91;
+}
+
+.add_remove_btns {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.remove_btn {
+    background-color: #B54747;
+}
+
+.add_btn {
+    background-color: #47B58D;
+}
+
+.mr-2 {
+    margin-right: 8px;
+}
+
+.svg_sprite{
+    width: 35px;
+    height: 35px;
+}
+
+.containerHeader{
+    line-height: 45px;
+}
+
+@media screen and (max-width: 576px) {
+    .containers{
+        padding-top: 40px;
+    }
+}

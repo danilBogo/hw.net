@@ -1,0 +1,301 @@
+﻿.binking {
+    margin-top:5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.binking__form.binking__hide {
+    display: none;
+}
+
+.binking__success.binking__hide {
+    display: none;
+}
+
+.binking__title {
+    font-size: 1.9em;
+    margin: 0;
+    margin-bottom: 1.7em;
+}
+
+.binking__panels {
+    width: 500px;
+    height: 260px;
+    position: relative;
+}
+
+.binking__panel {
+    position: absolute;
+    width: 370px;
+    height: 230px;
+    border-radius: 15px;
+}
+
+.binking__front-panel {
+    background: #1f1c2e;
+    color: white;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: background-color 150ms ease;
+}
+
+.binking__form-bank-logo {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    padding: 20px 27px 0;
+    width: 100%;
+    height: 68px;
+    object-fit: contain;
+    object-position: 0 0;
+    transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.binking__form-bank-logo.binking__hide {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.binking__form-brand-logo {
+    position: absolute;
+    bottom: 27px;
+    right: 41px;
+    text-align: right;
+    height: 40px;
+    transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.binking__form-brand-logo.binking__hide {
+    opacity: 0;
+    transform: scale(0.8)
+}
+
+.binking__front-fields {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 26px;
+}
+
+.binking__number-field {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.binking__date-label {
+    margin-bottom: 6px;
+    transition: color 150ms ease;
+}
+
+.binking__date-field {
+    display: inline-block;
+    width: 51px;
+}
+
+.binking__month-field {
+    padding: 6px 3px !important;
+    margin-right: 10px;
+}
+
+.binking__back-panel {
+    bottom: 0;
+    right: 0;
+    background: rgb(255 255 255 / 48%);
+}
+
+.binking__back-panel:before {
+    content: '';
+    position: absolute;
+    top: 26px;
+    background: #444;
+    width: 100%;
+    height: 60px;
+    left: 0;
+}
+
+.binking__code-field {
+    position: absolute;
+    bottom: 77px;
+    right: 26px;
+    width: 80px;
+}
+
+.binking__code-label {
+    position: absolute;
+    width: 80px;
+    right: 26px;
+    bottom: 8px;
+}
+
+.binking__field {
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 20px;
+    text-indent: 2px;
+    border: 2px solid #333;
+    transition: border-color 150ms ease;
+}
+
+.binking__field:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.binking__label {
+    display: block;
+}
+
+.binking__form-bottom {
+    margin-top: 1em;
+}
+
+.binking__error {
+    margin-bottom: 0.5em;
+    color: #c00;
+}
+
+.binking__error.binking__hide {
+    display: none;
+}
+
+.binking__success-payment{
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+}
+
+
+.binking__button {
+    margin-top: 10%;
+    border-radius: 10px;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+    height: 45px;
+    background: #100e19;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 45px;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(90deg, #3a054e, #2f073f, #2d0857, #220533);
+}
+.binking__button:hover {
+    background: linear-gradient(90deg, #580879, #8013ac, #5a1ba1, #3b055a);
+}
+
+@-webkit-keyframes binking__spin {
+     0% {
+         -webkit-transform: rotate(0deg);
+         transform: rotate(0deg)
+     }
+     to {
+         -webkit-transform: rotate(1turn);
+         transform: rotate(1turn)
+     }
+ }
+
+@keyframes binking__spin {
+     0% {
+         -webkit-transform: rotate(0deg);
+         transform: rotate(0deg)
+     }
+     to {
+         -webkit-transform: rotate(1turn);
+         transform: rotate(1turn)
+     }
+ }
+
+.binking__hint {
+    line-height: 1.5;
+}
+
+@media (max-width: 540px) {
+    .binking__panels {
+        width: 386px;
+        height: 300px;
+    }
+    .binking__code-field {
+        bottom: 16px;
+    }
+    .binking__code-label {
+        text-align: right;
+        right: 115px;
+        bottom: 0;
+    }
+}
+
+@media (max-width: 430px) {
+    .binking {
+        font-size: 14px;
+    }
+    .binking__panels {
+        width: 300px;
+        height: 243px;
+    }
+    .binking__panel {
+        width: 290px;
+        height: 180px;
+        border-radius: 10px;
+    }
+    .binking__form-bank-logo {
+        padding: 15px 16px 0;
+        height: 57px;
+    }
+    .binking__form-brand-logo {
+        bottom: 16px;
+        right: 17px;
+        height: 30px;
+    }
+    .binking__front-fields {
+        padding: 16px;
+    }
+    .binking__number-field {
+        margin-bottom: 12px;
+    }
+    .binking__date-label {
+        margin-bottom: 4px;
+    }
+    .binking__date-field {
+        width: 45px;
+    }
+    .binking__month-field {
+        padding: 6px 3px !important;
+        margin-left: 30px;
+        margin-right: 10px;
+    }
+    .binking__code-field {
+        bottom: 16px;
+        width: 62px;
+    }
+    .binking__code-label {
+        right: 97px;
+        bottom: 0px;
+    }
+    .binking__back-panel:before {
+        top: 16px;
+        height: 60px;
+    }
+    .binking__field {
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 6px 10px;
+        font-size: 14px;
+        text-indent: 2px;
+    }
+}
+
+.tippy-tooltip.custom-theme {
+    background-color: #c00;
+    color: #ffffff;
+}
+
+.tippy-tooltip.custom-theme[data-placement^='top'] .tippy-arrow {
+    border-top-color: #c00;
+}

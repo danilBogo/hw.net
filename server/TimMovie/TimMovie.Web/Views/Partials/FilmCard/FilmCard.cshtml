@@ -1,0 +1,59 @@
+﻿@model TimMovie.Web.ViewModels.FilmCard.FilmCardViewModel
+@{
+    var card = Model;
+    var isAuth = User.Identity.IsAuthenticated;
+}
+
+<div class="col [ film-card ]">
+    <div class="position-relative">
+        <a class="position-absolute [ film-card__more-info-container ]" asp-controller="Film" asp-action="Film" asp-route-filmId="@Model.Id">
+            <div class="d-flex flex-column [ film-card__more-info ]">
+                <div class="d-flex flex-column align-items-end">
+                    <div id="watch_later_title" title="@(Model.IsAddedToWatchLater ? "Убрать из смотреть" : "Смотреть") позже">
+                        <button class="buttons bg-transparent border-0 p-0 m-0 film_card_btns" 
+                                data-auth="@isAuth" data-type="watchLater" data-added = "@Model.IsAddedToWatchLater">
+                            <svg class="watch_later_svg svg_hover"
+                                 width="24px" height="24px"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="#c6c6c9">
+                                <use xlink:href="/img/svgIcons/sprite.svg#@(Model.IsAddedToWatchLater ? "RemoveFromWatchLater" : "AddToWatchLater")"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="like_title" title="@(Model.IsGradeSet ? "Изменить оценку фильма" : "Поставить оценку фильму")">
+                        <button data-bs-toggle="modal" data-bs-target=@(isAuth ? "#modalFilmGrade" : "#modal1")
+                                class="buttons bg-transparent border-0 p-0 m-0 film_card_btns" data-type="like" data-auth = "@isAuth">
+                            <svg class="svg-grade svg_hover"
+                                 width="24px" height="24px"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="#c6c6c9">
+                                <use xlink:href="/img/svgIcons/sprite.svg#@(Model.IsGradeSet ? "Unlike" : "Like")"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="pe-2 d-flex flex-column text-end [ film-card__more-info-content ]">
+                    <div>Рейтинг: @card.Rating/10</div>
+                    <div>@card.Year, @card.CountryName, @card.FirstGenreName</div>
+                </div>
+            </div>
+        </a>
+        <a href="" class="mw-100">
+            <img class="rounded-2 mw-100 [ film-card__img ]"
+                 src="@card.Image" alt=""/>
+        </a>
+        <div class="d-flex flex-column [ film-card__under-content ]">
+            <a asp-controller="Film" asp-action="Film" asp-route-filmId="@Model.Id">
+                <div class="[ film-card__title ]">@card.Title</div>
+            </a>
+            @if (!card.IsFree)
+            {
+                <div class="text-danger [ film-card__subscribe-text ]">Подписка</div>
+            }
+            else
+            {
+                <div class="[ film-card__subscribe-text ]">Бесплатно</div>
+            }
+        </div>
+    </div>
+</div>

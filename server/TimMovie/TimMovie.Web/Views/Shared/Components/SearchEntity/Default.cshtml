@@ -1,0 +1,115 @@
+﻿@model TimMovie.Web.ViewModels.SearchFromLayout.SearchEntityViewModel
+
+@for (var i = 0; i < (Model.Films?.Count() <= 4 ? Model.Films?.Count() : 4); i++)
+{
+    var film = Model.Films?.Skip(i).First();
+    if (film is null)
+        continue;
+    <a class="search-element d-flex" asp-controller="Film" asp-action="Film" asp-route-filmId="@film.Id">
+        <div class="search-element-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 width="30px" height="30px" viewBox="0 0 612 612"
+                 style="enable-background:new 0 0 612 612;" xml:space="preserve">
+                <path d="M573.75,267.75L459,344.25c0-23.218-10.557-43.758-26.89-57.796c38.881-23.428,65.14-65.637,65.14-114.329
+				c0-73.938-59.938-133.875-133.875-133.875c-73.937,0-133.875,59.938-133.875,133.875c0,37.504,15.51,71.317,40.373,95.625
+				h-70.151c18.322-20.33,29.778-46.971,29.778-76.5c0-63.38-51.37-114.75-114.75-114.75S0,127.87,0,191.25
+				c0,34.578,15.625,65.216,39.818,86.254C16.199,290.528,0,315.371,0,344.25v153c0,42.247,34.253,76.5,76.5,76.5h306
+				c42.247,0,76.5-34.253,76.5-76.5l114.75,76.5c21.133,0,38.25-17.117,38.25-38.25V306C612,284.867,594.883,267.75,573.75,267.75z
+				 M114.75,267.75c-42.247,0-76.5-34.253-76.5-76.5s34.253-76.5,76.5-76.5s76.5,34.253,76.5,76.5S156.997,267.75,114.75,267.75z
+				 M363.375,267.96c-52.938,0-95.835-42.917-95.835-95.835c0-52.938,42.917-95.835,95.835-95.835s95.835,42.897,95.835,95.835
+				S416.312,267.96,363.375,267.96z"/>
+            </svg>
+        </div>
+        @{
+            <div class="search-element-content">
+                <div class="search-element-name">
+                    @film.Title
+                </div>
+                <div class="search-element-label">
+                    @film.Year
+                </div>
+            </div>
+        }
+    </a>
+}
+@for (var i = 0; i < (Model.Actors?.Count() <= 2 ? Model.Actors?.Count() : 2); i++)
+{
+    var actor = Model.Actors?.Skip(i).First();
+    if (actor is null)
+        continue;
+    <a asp-controller="Person" asp-action="GetActorPage" asp-route-id="@actor.Id" class="search-element d-flex">
+        <div class="search-element-icon">
+            <svg viewBox="3 3 29 29" xmlns="http://www.w3.org/2000/svg"
+                 width="30px" height="30px">
+                <path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"/>
+                <path d="M16,17a5,5,0,1,1,5-5A5,5,0,0,1,16,17Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,16,9Z"/>
+                <path d="M25.55,24a1,1,0,0,1-.74-.32A11.35,11.35,0,0,0,16.46,20h-.92a11.27,11.27,0,0,0-7.85,3.16,1,1,0,0,1-1.38-1.44A13.24,13.24,0,0,1,15.54,18h.92a13.39,13.39,0,0,1,9.82,4.32A1,1,0,0,1,25.55,24Z"/>
+            </svg>
+        </div>
+        <div class="search-element-content">
+            <div class="search-element-name">
+                @($"{actor.Name} {actor.Surname}")
+            </div>
+            <div class="search-element-label">
+                Актер
+            </div>
+        </div>
+    </a>
+}
+@for (var i = 0; i < (Model.Producers?.Count() <= 2 ? Model.Producers?.Count() : 2); i++)
+{
+    var producer = Model.Producers?.Skip(i).First();
+    if (producer is null)
+        continue;
+    <a asp-controller="Person" asp-action="GetProducerPage" asp-route-id="@producer.Id"  class="search-element d-flex">
+            <div class="search-element-icon">
+                <svg viewBox="3 3 29 29" xmlns="http://www.w3.org/2000/svg"
+                     width="30px" height="30px">
+                    <path d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z"/>
+                    <path d="M16,17a5,5,0,1,1,5-5A5,5,0,0,1,16,17Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,16,9Z"/>
+                    <path d="M25.55,24a1,1,0,0,1-.74-.32A11.35,11.35,0,0,0,16.46,20h-.92a11.27,11.27,0,0,0-7.85,3.16,1,1,0,0,1-1.38-1.44A13.24,13.24,0,0,1,15.54,18h.92a13.39,13.39,0,0,1,9.82,4.32A1,1,0,0,1,25.55,24Z"/>
+                </svg>
+            </div>
+            <div class="search-element-content">
+                <div class="search-element-name">
+                    @($"{producer.Name} {producer.Surname}")
+                </div>
+                <div class="search-element-label">
+                    Режиссер
+                </div>
+            </div>
+        </a>
+}
+@for (var i = 0; i < (Model.Genres?.Count() <= 2 ? Model.Genres?.Count() : 2); i++)
+{
+    var genre = Model.Genres?.Skip(i).First();
+    if (genre is null)
+        continue;
+    <a class="search-element d-flex" asp-controller="Films" asp-action="Filters" asp-route-genres="@genre.Name">
+        <div class="search-element-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 width="30px" height="30px" viewBox="0 0 475.082 475.082"
+                 style="enable-background:new 0 0 475.082 475.082;"
+                 xml:space="preserve">
+                <path d="M456.239,128.475c-12.56-12.562-27.597-18.842-45.11-18.842h-191.86v-9.136c0-17.511-6.283-32.548-18.843-45.107
+		c-12.562-12.562-27.6-18.846-45.111-18.846H63.953c-17.515,0-32.551,6.283-45.111,18.846C6.28,67.949,0,82.986,0,100.497v274.088
+		c0,17.508,6.28,32.545,18.842,45.104c12.562,12.565,27.6,18.849,45.111,18.849h347.175c17.514,0,32.551-6.283,45.11-18.849
+		c12.566-12.56,18.843-27.597,18.843-45.104V173.59C475.082,156.078,468.805,141.042,456.239,128.475z M438.536,374.585
+		c0,7.611-2.662,14.093-7.99,19.417c-5.328,5.325-11.8,7.987-19.417,7.987H63.953c-7.614,0-14.084-2.662-19.414-7.987
+		c-5.33-5.324-7.993-11.806-7.993-19.417V100.501c0-7.611,2.663-14.084,7.993-19.414c5.326-5.327,11.799-7.993,19.414-7.993h91.365
+		c7.614,0,14.087,2.663,19.417,7.993c5.327,5.33,7.993,11.803,7.993,19.414v18.274c0,7.616,2.664,14.083,7.994,19.414
+		c5.327,5.327,11.798,7.994,19.414,7.994h200.993c7.617,0,14.089,2.666,19.417,7.993c5.328,5.326,7.99,11.799,7.99,19.414V374.585
+		L438.536,374.585z"/>
+            </svg>
+
+        </div>
+        <div class="search-element-content">
+            <div class="search-element-name">
+                @genre.Name
+            </div>
+            <div class="search-element-label">
+                Жанр
+            </div>
+        </div>
+    </a>
+}

@@ -1,0 +1,9 @@
+﻿@model IEnumerable<TimMovie.Core.DTO.Messages.MessageDto>
+@{
+    Layout = null;
+}
+
+@foreach (var message in Model)
+{
+    await Html.RenderPartialAsync("~/Views/Support/ModalWindowChat/Message.cshtml", message);
+}

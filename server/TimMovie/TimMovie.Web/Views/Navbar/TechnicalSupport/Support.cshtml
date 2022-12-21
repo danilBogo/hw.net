@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="d-flex flex-column mt-4 chat-page__container">
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex">
+            <button class="btn btn-outline-success" id="startWorkBtn">Начать</button>
+            <button class="btn btn-outline-light ms-3" id="stopWorkBtn" disabled>Закончить</button>
+        </div>
+        <button class="btn btn-outline-danger" id="disconnectBtn" disabled>Выйти из чата</button>
+    </div>
+    <div class="d-flex flex-column mt-2 chat-in-page__container">
+        <div class="d-flex align-items-center p-3 ps-5 chat-in-page__header">
+            <img src="/file-api/image?relativePath=user_photo/default.jpg" 
+                 class="chat-in-page__user-photo" id="userPhotoInChat" alt=""/>
+            <div class="ms-3" id="userNameInChat">Имя пользователя</div>
+        </div>
+        <div class="chat-in-page__body" id="chatBody">
+        </div>
+        <div class="chat-in-page__input d-flex align-items-center">
+            <div class="ms-5 me-5 d-flex align-items-center flex-grow-1 h-100">
+                <div class="chat-in-page__input__message-container flex-grow-1 ms-2">
+                    <textarea type="textarea" class="w-100 chat-in-page__input__message-input" id="messageInput" placeholder="Сообщение"></textarea>
+                </div>
+                <div class="align-items-center ms-4">
+                    <div class="chat-in-page__input__send-btn align-items-center justify-content-center d-flex" id="sendMessageBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="position-fixed bottom-0 start-50 translate-middle-x pb-2" style="z-index: 11">
+    <div id="messageOnConnectToNewUser" class="toast message-on-new-connect-user" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div>Подключен новый пользователь</div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="gray" class="ms-2" viewBox="0 0 16 16">
+                  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+    </div>
+</div>
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="/css/Support/chatInPage.css">
+}
+@section Scripts
+{
+    <script src="/js/Support/support_page.js"></script>
+}

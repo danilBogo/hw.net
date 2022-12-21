@@ -1,0 +1,1 @@
+﻿export const RoleNames = new Set(["admin", "support", "banned"]);

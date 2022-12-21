@@ -1,0 +1,10 @@
+﻿@model IEnumerable<TimMovie.Web.ViewModels.Films.PersonFilmViewModel>
+
+@{
+    Layout = null;
+}
+
+@foreach (var film in Model)
+{
+    await Html.RenderPartialAsync("~/Views/Partials/FilmCard/PersonFilm.cshtml", film);
+}

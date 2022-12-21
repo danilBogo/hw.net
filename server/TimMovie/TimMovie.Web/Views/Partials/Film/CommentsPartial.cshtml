@@ -1,0 +1,23 @@
+﻿@model List<TimMovie.Core.DTO.Comments.CommentsDto?>
+
+@{
+    var comments = Model;
+    Layout = null;
+}
+@foreach (var comment in comments)
+{
+    <div class="comment-container">
+        <div class="comment-header d-flex">
+            <a class="comment-author-img-container" asp-controller="UserProfile" asp-action="Profile" asp-route-id="@comment?.AuthorId">
+                <img class="comment-author-img" src="@comment?.AuthorPathToPhoto" alt=""/>
+            </a>
+            <div class="comment-author-data">
+                <a class="comment-author-nick" asp-controller="UserProfile" asp-action="Profile" asp-route-id="@comment?.AuthorId">
+                    @comment?.AuthorDisplayName
+                </a>
+                <div class="comment-author-publish-date">@comment?.Date</div>
+            </div>
+        </div>
+        <div class="comment-body">@comment?.Content</div>
+    </div>
+}

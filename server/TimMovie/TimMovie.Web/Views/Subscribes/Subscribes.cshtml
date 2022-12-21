@@ -1,0 +1,22 @@
+﻿@model TimMovie.Web.ViewModels.SearchFromLayout.SearchSubscribeViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Подписки";
+}
+
+<div class="subscribe-header mt-5 mb-3">
+    <input class="input-search" id="input-search-subscribe" type="text" placeholder="Введите название"/>
+</div>
+<div class="subscribe-body d-flex justify-content-center w-100">
+    <div class="subscribeCard-container row row-cols-5 w-100"></div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/Subscribes/Subscribes_Script.js"></script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Subscribes/Subscribes.css"/>
+}

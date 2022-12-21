@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="AuthStartupSetup.fs" />
+        <Compile Include="Controllers\AuthController.fs" />
+        <Compile Include="Controllers\Check.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="6.0.4" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
+      <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
+      <PackageReference Include="OpenIddict" Version="3.1.1" />
+      <PackageReference Include="OpenIddict.Abstractions" Version="3.1.1" />
+      <PackageReference Include="OpenIddict.AspNetCore" Version="3.1.1" />
+      <PackageReference Include="OpenIddict.Core" Version="3.1.1" />
+      <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="3.1.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TimMovie.Core\TimMovie.Core.csproj" />
+      <ProjectReference Include="..\TimMovie.Infrastructure\TimMovie.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,154 @@
+﻿@using TimMovie.Web.ViewModels.WatchedFilms;
+@using TimMovie.Core.Classes;
+
+@model (PaginatedList<WatchedFilmViewModel> watchedFilms, bool isOwner)
+
+@{
+    var watchedFilms = Model.watchedFilms;
+    var isOwner = Model.isOwner;
+}
+
+@{
+    ViewBag.Title = "Просмотренные фильмы";
+    Layout = "_Layout";
+}
+
+<div class="box mt-10">
+    <div class="panel">
+        <div class="banner">
+            <img src="~/img/tBanner.png" class="tmbanner" alt="timMovie banner">
+        </div>
+        <div class="list-title mt-5">
+            <div class="navigation mt-4">
+                <div class="navigation-film-number">
+                    <span id="film-number-btn" class="clickable navigation-txt">№</span>
+                </div>
+                <div class="navigation-film-name">
+                    <span id="film-title-btn" class="clickable navigation-txt">Фильм</span>
+                </div>
+                <div class="navigation-film-duration">
+                    <span id="film-duration-btn" class="clickable navigation-txt">Рейтинг фильма</span>
+                </div>
+                <div class="navigation-film-grade">
+                    <span id="film-grade-btn" class="clickable navigation-txt">Оценка</span>
+                </div>
+                <div class="navigation-film-watched-date">
+                    <span class="clickable navigation-txt">Дата просмотра</span>
+                </div>
+            </div>
+            <div class="films-container">
+                @{
+                    var index = 0;
+                    foreach (var watched in watchedFilms)
+                    {
+                        index++;
+                        var gradeClass = watched.Grade switch
+                        {
+                            >= 8 => "goodGrade",
+                            >= 5 => "mediumGrade",
+                            > 0 => "badGrade",
+                            _ => ""
+                            };
+                        var filmNumber = index + (watchedFilms.PageIndex - 1) * watchedFilms.PageSize;
+                        <div class="films-list">
+                            <div class="@(filmNumber > 9 ? "film-number-large" : "film-number") film-block">
+                                <span>@filmNumber</span>
+                            </div>
+                            <div class="film-card">
+                                 <a asp-controller="Film" asp-action="Film" asp-route-filmId="@watched.FilmId"><img class="film-photo" src="@watched.Image" alt=""></a>
+                            </div>
+                            <div class="film-title film-block">
+                                <a asp-controller="Film" asp-action="Film" asp-route-filmId="@watched.FilmId"> <span class="film-title-txt">@watched.Title</span></a>
+                            </div>
+                            <div class="film-duration film-block text-white">
+                                <span>@watched.Rating</span>
+                            </div>
+                            <div class="film-grade film-block">
+                                <span data-bs-toggle="modal" @(isOwner ? "data-bs-target=#modalFilmGrade" : "")  class="p-3 @(gradeClass) @(isOwner ? "setGradeButton" : "")">@(watched.Grade > 0 ? watched.Grade : "-")</span>
+                                <div class="filmIdHidden">@watched.FilmId</div>   
+                            </div>
+                            <div class="film-watched-date film-block">
+                                <span class="watched-date-text">@watched.WatchedDate</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="pagination-numbers">
+            @{
+                const int numsAfterCurrentPage = 2;
+                var pageIndex = watchedFilms.PageIndex;
+                var isShownStart = false;
+                for (var i = 1; i < watchedFilms.TotalPages + 1; i++)
+                {
+                    var currentIndex = i;
+                    var paginationIndex = currentIndex < pageIndex ? pageIndex - (pageIndex - currentIndex) : i;
+                    if (currentIndex == pageIndex)
+                    {
+                        <span class="ms-3" style="text-decoration: underline">@pageIndex</span>
+                    }
+                    
+                    else
+                    {
+                        if (paginationIndex < pageIndex - numsAfterCurrentPage)
+                        {
+                            if (isShownStart)
+                            {
+                                continue;
+                            }
+                            isShownStart = true;
+                            <a asp-controller="WatchedFilms" asp-action="WatchedFilms" asp-route-page="1" style="text-decoration: none" class="ms-2">1</a>
+                            <span class="ms-2">...</span>
+                            continue;
+                        }
+                        
+                        if (paginationIndex > pageIndex + numsAfterCurrentPage)
+                        {
+                            <span class="ms-2">...</span>
+                            <a asp-controller="WatchedFilms" asp-action="WatchedFilms" asp-route-page="@watchedFilms.TotalPages" style="text-decoration: none" class="ms-2">@watchedFilms.TotalPages</a>
+                            break;
+                        }
+                        <a asp-controller="WatchedFilms" asp-action="WatchedFilms" asp-route-page="@paginationIndex" style="text-decoration: none" class="ms-3">@paginationIndex</a>
+                    }
+                    
+                }
+            }
+        </div>
+        <div class="pagination-buttons-area">
+            @if (watchedFilms.HasPreviousPage)
+            {
+                <a asp-action="WatchedFilms" asp-controller="WatchedFilms"
+                   asp-route-page="@(watchedFilms.PageIndex - 1)"
+                   class="btn btn-outline-dark pagination-button">
+                    ←
+                </a>
+            }
+            @if (watchedFilms.HasNextPage)
+            {
+                <a asp-action="WatchedFilms" asp-controller="WatchedFilms"
+                   asp-route-page="@(watchedFilms.PageIndex + 1)"
+                   class="btn btn-outline-dark pagination-button ms-3">
+                    →
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+@if (isOwner)
+{
+    await Html.RenderPartialAsync("~/Views/Grade/Grade.cshtml");
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/WatchedFilms/WatchedFilmsStyle.css">
+    <link rel="stylesheet" href="/css/gradeModalWindow.css">
+}
+
+@section Scripts
+{
+    <script src="~/js/WatchedFilms/watchedFilmsScript.js"></script>
+    <script src="~/js/gradeModalWindow.js"></script>
+}

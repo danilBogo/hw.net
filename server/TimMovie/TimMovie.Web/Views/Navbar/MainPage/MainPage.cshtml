@@ -1,0 +1,99 @@
+﻿@using TimMovie.Core.Const
+@using TimMovie.Web.Extensions
+@model List<TimMovie.Web.ViewModels.BannerViewModel>
+@{
+    var banners = Model;
+    ViewBag.Title = "Главная";
+}
+
+<div class="row mb-2 justify-content-center">
+    <div class="col-1 p-0">
+        <a href="#bannerCarousel" class="prev_next_buttons h-100 d-flex align-items-center justify-content-end"
+           role="button" data-bs-slide="prev">
+            <svg class="shift-left" xmlns="http://www.w3.org/2000/svg" width="80px"
+                 height="60px" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path
+                    d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z"/>
+            </svg>
+        </a>
+    </div>
+    <div class="col-1 order-3 p-0">
+        <a href="#bannerCarousel" class="prev_next_buttons h-100 d-flex align-items-center justify-content-start"
+           role="button" data-bs-slide="next">
+            <svg class="shift-right" xmlns="http://www.w3.org/2000/svg" width="80px" height="60px" viewBox="0 0 129 129"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path
+                    d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Banner carousel -->
+    <div class="col-10 p-0">
+
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- slides of banners -->
+            <div class="carousel-inner circleBorders">
+                @for (var i = 0; i < banners.Count; i++)
+                {
+                    var active = i == 0 ? "active" : string.Empty;
+                    <a class="filmId" asp-controller="Film" asp-action="Film" asp-route-filmId="@banners[i].Film.Id">
+                        <div class="carousel-item @active" data-bs-interval="10000">
+                            <div class="overlay-image">
+                            </div>
+                            <div class="banner-container ms-4">
+                                <h1>@banners[i].Film.Title</h1>
+                                <p>
+                                    @banners[i].Description
+                                </p>
+                                <a class="btn btn-lg btn_color" asp-controller="Film" asp-action="Film" asp-route-filmId="@banners[i].Film.Id">
+                                    Смотреть
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div >
+        </div>
+    </div>
+</div>
+<!-- Recommendations carousel -->
+<h3 class="text_color pl-3 mt-5">Лучшие триллеры</h3>
+<vc:carousel genre-name="@GenresNames.Thrillers"></vc:carousel>
+<h3 class="text_color pl-3 mt-5">Фильмы для семьи</h3>
+<vc:carousel genre-name="@GenresNames.ForFamily"></vc:carousel>
+<h3 class="text_color pl-3 mt-5">Лучшие комедии</h3>
+<vc:carousel genre-name="@GenresNames.Comedy"></vc:carousel>
+<h3 class="text_color pl-3 mt-5">Лучшие драмы</h3>
+<vc:carousel genre-name="@GenresNames.Dramas"></vc:carousel>
+@if (!User.HasRoleClaim(RoleNames.Support))
+{
+    await Html.RenderPartialAsync("~/Views/Support/ModalWindowChat/Chat.cshtml");
+}
+
+
+@{ await Html.RenderPartialAsync("~/Views/Grade/Grade.cshtml"); }
+
+
+@section Scripts{
+    <script src="~/js/Navbar/mainPage.js"></script>
+    <script src="/js/Carousel_Script.js"></script>
+    <script src="/js/resendEmailScript.js"></script>
+    <script src="~/js/FilmCard/animation_for_film_card.js"></script>
+    <script src="~/js/FilmCard/adaptive_container_with_film_card.js"></script>
+    <script src="~/js/Support/modal_window_chat.js"></script>
+    <script src="~/js/Support/connection_hub_for_user_chat.js"></script>
+    <script src="~/js/svgLogic.js"></script>
+    <script src="~/js/gradeModalWindow.js"></script>
+    <script src="~/js/FilmCard/WatchLater.js"></script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="/css/mainPage.css">
+    <link rel="stylesheet" href="~/css/FilmCard/cardStyle.css"/>
+    <link rel="stylesheet" href="~/css/Support/modalWindowChat.css"/>
+    <link rel="stylesheet" href="~/css/carousel.css"/>
+    <link rel="stylesheet" href="~/css/gradeModalWindow.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+}

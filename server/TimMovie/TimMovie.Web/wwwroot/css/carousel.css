@@ -1,0 +1,131 @@
+﻿/* film carousel styles */
+.prev_next_buttons {
+    fill: rgba(255, 255, 255, .72);
+    cursor: pointer;
+    opacity: 1;
+    top:-50px;
+}
+
+.prev_next_buttons:hover {
+    fill: #fff;
+}
+
+.column {
+    float: left;
+    width: 12.5%;
+    padding: 8px;
+}
+
+.my_row {
+    content: "";
+    display: grid;
+    clear: both;
+}
+
+.circleCardBorder {
+    border-radius: 15px;
+}
+
+.last_card_style {
+    text-align: center;
+    border-radius: 15px;
+    font-size: 17px;
+}
+
+.last_card_style:hover {
+    transform: scale(1.04);
+    background-color: yellow;
+}
+
+@media screen and (max-width: 1400px) {
+    .column {
+        width: 14.28%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .column {
+        width: 16.66%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .column {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .column {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .column {
+        width: 33.33%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .column {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .column {
+        width: 100%;
+    }
+}
+
+.carousel-container {
+    position: relative;
+    font-size: 40px;
+}
+
+.carousel-container .carousel-inner {
+    overflow: hidden;
+}
+
+.carousel-container .track {
+    display: flex;
+    transition: 1s;
+}
+
+.carousel-container .card-container {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.carousel-container .card-container .card {
+    cursor: pointer;
+}
+
+.card {
+    background-color: inherit;
+    border-width: 0;
+}
+
+.carousel-nav a {
+    z-index: 10;
+    width: 50px;
+    top: 0;
+    cursor: pointer;
+}
+
+.carousel-nav .prev {
+    left: -40px;
+    display: none;
+}
+
+.carousel-nav .next {
+    right: -40px;
+}
+
+.film-card{
+    font-size: 16px !important;
+}
+
+/* end of film carousel styles */

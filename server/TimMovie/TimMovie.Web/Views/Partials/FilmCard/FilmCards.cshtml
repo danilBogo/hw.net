@@ -1,0 +1,6 @@
+﻿@model IEnumerable<TimMovie.Web.ViewModels.FilmCard.FilmCardViewModel>
+
+@foreach (var card in Model)
+{
+    await Html.RenderPartialAsync("~/Views/Partials/FilmCard/FilmCard.cshtml", card);
+}

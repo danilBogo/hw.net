@@ -1,0 +1,18 @@
+﻿@model TimMovie.Core.DTO.Messages.MessageDto
+@{
+    Layout = null;
+}
+
+@if (Model.ToUser)
+{
+    <div class="chat-container-body-support-message">
+        <div class="chat-container-body-support-name">Ильдар-техподдержка</div>
+        <div class="chat-container-body-support-text">@Model.Content</div>
+    </div>
+}
+else
+{
+    <div class="chat-container-body-user-message">
+        <div class="chat-container-body-user-text">@Model.Content</div>
+    </div>
+}

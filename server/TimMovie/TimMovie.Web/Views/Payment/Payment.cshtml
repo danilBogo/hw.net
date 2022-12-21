@@ -1,0 +1,57 @@
+﻿@model TimMovie.Web.ViewModels.Payment.SubscribePaymentWithCardViewModel 
+<head>
+  <link rel="stylesheet" href="~/css/Payment/paymentCardStyle.css">
+</head>
+
+<body>
+  <div class="hint">
+    <p>
+      Форма работает в тестовом режиме и не отправляет данные на
+      сервер, при нажатии на кнопку «Оплатить» с вероятностью 15% будет выведено
+      сообщение, якобы платёж был отклонён вашим банком.
+    </p>
+    <p>
+      Можете ввести свой номер карты, можете вставить один из
+      заготовленных: 4023330000000006, 5536910000000002 или 6777210000000003.
+    </p>
+  </div>
+
+<div class="binking">
+  <form class="binking__form" asp-controller="SubscribePayment" asp-action="Payment" asp-route-subscribeId="@Model.SubscribePaymentViewModel.Subscribe.Id">
+    <input type="text" hidden value="@Model.SubscribePaymentViewModel.Subscribe.Id" id="subscribeId">
+    <h2 class="binking__title">Введите данные карты для оплаты</h2>
+    <div class="binking__panels">
+      <div class="binking__panel binking__front-panel">
+        <img class="binking__form-bank-logo binking__hide">
+        <img class="binking__form-brand-logo binking__hide">
+        <div class="binking__front-fields">
+          <input asp-for="CardViewModel.CardNumber" autocomplete="cc-number" inputmode="numeric" pattern="[0-9 ]*" class="binking__field binking__number-field" type="text" placeholder="0000 0000 0000 0000">
+          <label class="binking__label binking__date-label">Действует до</label>
+          <input asp-for="CardViewModel.ExpirationMonth" autocomplete="cc-exp-month" inputmode="numeric" pattern="[0-9]*" class="binking__field binking__month-field binking__date-field" type="text" placeholder="MM" value="">
+          <input asp-for="CardViewModel.ExpirationYear" autocomplete="cc-exp-year" inputmode="numeric" pattern="[0-9]*" class="binking__field binking__year-field binking__date-field" type="text" placeholder="YY" value="">
+        </div>
+      </div>
+      <div class="binking__panel binking__back-panel">
+        <input asp-for="CardViewModel.CCID" autocomplete="cc-csc" inputmode="numeric" pattern="[0-9]*" class="binking__field binking__code-field" type="password">
+        <label class="binking__label binking__code-label"><br>Код
+          на обратной
+          стороне</label>
+      </div>
+    </div>
+    <div class="binking__form-bottom">
+    <p class="binking__error binking__hide"></p>
+      <button class="binking__submit-button binking__button" type="submit">Оплатить @Model.SubscribePaymentViewModel.Subscribe.Price₽</button>
+      <div class="binking__success-payment binking__hide">
+      </div>
+    </div>
+  </form>
+  <div class="binking__success binking__hide">
+  </div>
+</div>
+
+  <script src="https://unpkg.com/binking"></script>
+  <script src="https://unpkg.com/imask@6"></script>
+  <script src="https://unpkg.com/popper.js@1"></script>
+  <script src="https://unpkg.com/tippy.js@5"></script>
+  <script src="~/js/Payment/paymentScript.js"></script>
+</body>

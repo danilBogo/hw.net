@@ -1,0 +1,13 @@
+﻿@model (string email, string userName)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/resendEmailScript.js"></script>
+<link rel="stylesheet" href="~/css/SmallPageElements/loader.css">
+<body class="container" style="display:flex;flex-direction:column;align-items:center;background-color: #100e19">
+<span style="color: white;">Добро пожаловать, @(Model.userName)!  Для входа в аккаунт подтвердите свою почту. На @Model.email отправлено письмо с подтверждением.</span>
+<input hidden value="@Model.email" id="emailInput">
+<br>
+<a asp-controller="MainPage" asp-action="MainPage" style="color: white">На главную</a>
+<br>
+<span style="color: white;cursor: pointer;text-decoration: underline" id="resendEmailBtn" onclick="resendEmail()">Отправить еще раз</span><br/>
+<div class="mb-5 loader hide"></div>
+</body>

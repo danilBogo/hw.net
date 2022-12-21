@@ -1,0 +1,16 @@
+﻿.formWithFieldsFilm{
+    margin-left: 10em;
+}
+.filmDescription{
+    height: 150px;
+    resize: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.errorMessageHeader{
+    fill: white;
+    color: white;
+    background-color: #cc6969;
+}

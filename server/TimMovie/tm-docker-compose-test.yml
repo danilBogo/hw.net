@@ -1,0 +1,9 @@
+﻿services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - '54320:5432'
+    environment:
+      POSTGRES_DB: "TimMovieDatabase"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgrespw"

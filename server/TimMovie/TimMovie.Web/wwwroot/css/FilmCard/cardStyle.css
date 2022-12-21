@@ -1,0 +1,57 @@
+.film-card a {
+    text-decoration: none;
+    color: white;
+}
+
+.film-card a:hover {
+    color: white;
+}
+
+.container_film_card {
+    margin-top: 0%;
+}
+
+.film-card:hover .film-card__img {
+    filter: brightness(30%);
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.film-card__more-info-container {
+    right: 0;
+    top: 0;
+    z-index: 4;
+}
+
+.film-card__title {
+    font-size: 1.2em;
+    margin: 0;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.film-card__under-content {
+    margin-top: 2%;
+}
+
+.film-card__subscribe-text {
+    font-size: 0.8em;
+    color:#ccc;
+}
+
+.film-card__more-info {
+    padding: 4%;
+}
+
+.film-card__more-info-content {
+    margin-top: 45%;
+    font-size: 0.9em;
+    color:#ccc;
+}
+
+.svg_hover:hover{
+    fill:#F6F6F7;
+}

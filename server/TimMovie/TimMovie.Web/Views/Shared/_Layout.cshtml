@@ -1,0 +1,112 @@
+﻿@using TimMovie.Web.Extensions
+@using TimMovie.Core.Const
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - TimMovie.Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="~/css/Navbar.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/css/Search.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom box-shadow mb-3">
+            <div>
+                <a asp-controller="MainPage" asp-action="MainPage">
+                    <img class="logoImg" src="~/img/logo.png" alt="">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between">
+                <ul class="navbar-nav">
+                    <li class="nav-item nav-button-left-first">
+                        <a class="navbar-text" asp-controller="Films" asp-action="Filters">Фильмы</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item nav-button-left">
+                            <a class="navbar-text" asp-controller="WatchLater" asp-action="WatchLater">Смотреть позже</a>
+                        </li>
+                    }
+                    @if (User.HasRoleClaim(RoleNames.Support))
+                    {
+                        <li class="nav-item nav-button-left">
+                            <a class="navbar-text" asp-controller="TechnicalSupport" asp-action="Support">Чат</a>
+                        </li>
+                    }
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item nav-button-right">
+                        <a class="navbar-text" asp-controller="Subscribes" asp-action="Subscribes">Подписки</a>
+                    </li>
+                    <li class="nav-item nav-button-right">
+                        <a data-bs-toggle="modal" data-bs-target="#modalGlobalSearch"
+                           class="navbar-text" id="button-navbar-search">
+                            Поиск
+                        </a>
+                    </li>
+                    @{
+                        if (Context.User.Identity is not {IsAuthenticated: true })
+                        {
+                            <li class="nav-item nav-button-right-last">
+                                <a class="navbar-text" data-bs-toggle="modal" data-bs-target="#modal1">Войти</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item nav-button-right">
+                                <a asp-controller="UserProfile" asp-action="Profile" asp-route-id="@User.GetUserId()" class="navbar-text">
+                                    Профиль
+                                </a>
+                            </li>
+                            <li class="nav-item nav-button-right-last">
+                                <a class="navbar-text" asp-controller="User" asp-action="Exit">
+                                    Выйти
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <partial name="~/Views/Account/Login.cshtml"></partial>
+        </nav>
+    </div>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    </main>
+</div>
+
+@{ await Html.RenderPartialAsync("~/Views/Navbar/SearchEntity/ModalWindow.cshtml"); }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="~/js/Navbar/Search_Script.js"></script>
+<script src="~/lib/signalr/signalr.js"></script>
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+@await RenderSectionAsync("Scripts", false)
+</body>
+</html>

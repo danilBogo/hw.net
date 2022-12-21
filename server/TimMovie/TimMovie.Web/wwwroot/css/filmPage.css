@@ -1,0 +1,322 @@
+:root {
+ --actors-producers-width-column: 90px;
+}
+
+
+.filmPage_container{
+ font-weight: 500;
+ font-size: 40px;
+ color: white;
+}
+
+
+.filmPage_container h1{
+ font-size: 3rem;
+}
+
+.text_color {
+ color: #fff;
+}
+
+ul{
+ line-height: 1.3rem;
+ list-style-type: none;
+ margin: 0;
+ padding: 0;
+}
+
+ul li{
+ display:inline;
+ font-size: 1rem;
+ padding: 10px;
+ color: rgba(255, 255, 255, 0.72)
+}
+
+
+#backward_link{
+ padding: 10px;
+ padding-left: 0;
+}
+
+#film_description
+{
+ padding-left: 10px;
+ font-size: 1rem;
+ text-align: left;
+ color: rgba(255, 255, 255, 0.72);
+}
+
+button{
+ border: 0;
+}
+
+
+.hover_link{
+ font-size: 1.3rem;
+ font-weight: 500;
+ text-decoration: none;
+ cursor: pointer;
+ color: rgba(255,255,255,0.72);
+}
+
+.hover_link:hover{
+ color: #fff;
+}
+
+#more{
+ padding-left: 0;
+ background-color: transparent;
+ color:rgba(255, 255, 255, .48);
+ font-size: 1rem;
+}
+
+#more:hover{
+ color:#fff
+}
+
+.text_bold{
+ font-weight: 1000;
+}
+
+.actor{
+ padding: 1px;
+ cursor: pointer;
+ text-decoration: none;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+}
+
+.actor:hover .content{
+ border: 7px solid #494850;
+}
+
+.actor:hover .caption {
+ color:#fff
+}
+
+.actor:hover #film_rating{
+ background-color: #494850;
+}
+
+.content{
+ width: 60px;
+ height: 60px;
+ border: 7px solid #36353e;
+ border-radius: 8px;
+}
+
+.notAvailableFilmLabel{
+ border: 2px solid white;
+ border-radius: 30px;
+ flex-wrap: wrap;
+ background-image: url("../img/bratva.jpg");
+ opacity: 0.8;
+}
+
+#film_rating{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ font-size: 1.2rem;
+ background-color: #36353e;
+ color: #fff;
+}
+
+.rating_label{
+ font-family: iviSans, Arial, Helvetica, Helvetica Neue, FreeSans, sans-serif;
+ font-size:56px;
+ font-weight: 700;
+ margin: 0;
+}
+
+.rating_under_label{
+ font-size: 14px;
+ color: rgba(255, 255, 255, 0.72);
+}
+
+.under_film_buttons{
+ max-width: max-content;
+}
+
+.film__line {
+ border-bottom: 1px solid rgb(114, 114, 114);
+}
+
+.actors-producers__container {
+ --actors-producers-amount-column: 11;
+ display: grid;
+ grid-template-columns: repeat(var(--actors-producers-amount-column), 1fr);
+ column-gap: calc((100% - var(--actors-producers-width-column) * var(--actors-producers-amount-column)) / (var(--actors-producers-amount-column) - 1));
+ row-gap: 0.7em;
+}
+
+.actors-producers__item__container {
+ text-decoration: none;
+ width: var(--actors-producers-width-column);
+}
+
+.actors-producers__item__container:hover .actors-producers__item__name {
+ color: rgb(255, 255, 255);
+ transition: 0.3s;
+}
+
+.actors-producers__item__img {
+ border-radius: 50%;
+ width: 90px;
+ height: 90px;
+ object-fit: cover;
+}
+
+.actors-producers__item__name {
+ font-size: 0.42em;
+ color: rgb(190, 190, 190);
+ line-height: 1.2;
+ overflow: hidden;
+ text-overflow: ellipsis;
+}
+
+.actors-producers__item__who {
+ font-size: 0.37em;
+ color: rgb(122, 122, 122);
+}
+
+.actors-producers__more-btn {
+ border-radius: 50%;
+ background-color: #1e1a31;
+ color: rgb(122, 122, 122);
+ font-size: 0.5em;
+ height: 90px;
+ width: 90px;
+ cursor: pointer;
+}
+
+.actors-producers__more-btn:hover {
+ background-color: #282342;
+ transition: 0.3s;
+}
+
+
+@media screen and (max-width: 450px) {
+ #rate_movie_label{
+  display: none;
+ }
+
+ #rate_movie{
+  height: 80px;
+  width: 80px;
+ }
+
+ #watch_later {
+  height: 80px;
+  width: 80px;
+ }
+
+ #watch_later_label {
+  display: none;
+ }
+}
+
+@media screen and (min-width: 450px) {
+ #rate_movie_label {
+  display: flex;
+ }
+ #watch_later_label {
+  display: flex;
+ }
+}
+
+
+@media screen and (max-width: 600px) {
+ #film_with_genre_links {
+  display: none;
+ }
+ #backward_link {
+  display: inline-block;
+ }
+}
+
+@media screen and (min-width: 600px) {
+ #film_with_genre_links {
+  display: inline-flex;
+ }
+ #backward_link{
+  display: none;
+ }
+}
+
+@media screen and (max-width: 880px){
+ #film_info_container {
+  text-align: center;
+ }
+}
+
+@media screen and (min-width: 880px){
+ #film_info_container {
+  text-align: left;
+  margin-top: -50px;
+ }
+}
+
+@media screen and (max-width: 1200px) {
+ #film_description{
+  margin-top: 24px;
+  border-top: 1px solid rgb(114, 114, 114);
+ }
+}
+
+@media screen and (min-width: 1200px) {
+ #film_info_container {
+  text-align: center;
+  padding-left: 40px;
+ }
+
+ #film_player {
+  height: min-content;
+  position: sticky;
+  top:0;
+ }
+}
+
+@media (max-width: 1400px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 10;
+ }
+}
+
+@media (max-width: 1140px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 9;
+ }
+}
+
+@media (max-width: 1000px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 7;
+ }
+}
+
+@media (max-width: 750px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 5;
+ }
+}
+
+@media (max-width: 600px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 4;
+ }
+}
+
+@media (max-width: 480px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 3;
+ }
+}
+
+@media (max-width: 360px) {
+ .actors-producers__container {
+  --actors-producers-amount-column: 2;
+ }
+} 

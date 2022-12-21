@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Смотреть позже";
+}
+
+
+<h3 class="text-center watch_later_films_empty_text">
+</h3>
+
+
+<div class="watch_later_films">
+</div>
+<div class="mb-5 loader hide"></div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/FilmCard/BigFilmCard.css"/>
+    <link rel="stylesheet" href="~/css/SmallPageElements/loader.css"/>
+}
+
+@section Scripts
+{
+    <script src="~/js/FilmCard/BigFilmCard.js"></script>
+    <script src="~/js/FilmCard/WatchLater.js"></script>
+    <script src="~/js/Ajax/load_watch_later_films.js"></script>
+}

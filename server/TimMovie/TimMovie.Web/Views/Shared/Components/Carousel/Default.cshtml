@@ -1,0 +1,52 @@
+﻿@addTagHelper *, TimMovie.Web
+@model IEnumerable<TimMovie.Web.ViewModels.FilmCard.FilmCardViewModel>
+
+@{
+    var cards = Model.ToList();
+    var cardsNumber = cards.Count;
+    var genreName = Model.FirstOrDefault()?.FirstGenreName;
+}
+<!-- Films carousel -->
+<div class="carousel-container">
+    <div class="carousel-inner">
+        <div class="track">
+            @for (var i = 0; i < cardsNumber; i++)
+            {
+                <div class="card-container column">
+                    <div class="card">
+                        @{
+                            await Html.RenderPartialAsync("~/Views/Partials/FilmCard/FilmCard.cshtml", cards[i]);
+                        }
+                    </div>
+                </div>
+                if (i == cardsNumber - 1)
+                {
+                    <div class="card-container column">
+                        <a asp-controller="Films" asp-action="Filters" asp-route-genres="">
+                        <div class="card text-white align-items-center justify-content-center last_card_style"
+                             style="background-color:#1f1b2e; height: 75%;" id ="last_card">
+                            Посмотреть все
+                        </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="carousel-nav">
+        <a class="column h-75 prev carousel-control-prev prev_next_buttons" id="prev">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path
+                    d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z"/>
+            </svg>
+        </a>
+        <a class="column h-75 next carousel-control-next prev_next_buttons" id="next">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path
+                    d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z"/>
+            </svg>
+        </a>
+    </div>
+</div>

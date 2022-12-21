@@ -1,0 +1,20 @@
+﻿.navLink{
+    text-decoration: none;
+    color: black;
+}
+.navLink:hover{
+    transition: all 0.1s ease-in-out 0s;
+    color: #6a6a6a;
+}
+.active{
+    color: #6a6a6a;
+    cursor: default;
+}
+.navContainer{
+    height: 60px;
+    border-bottom: 1px solid black;
+}
+
+.navLink:not(:first-child){
+    margin-left: 3em;
+}

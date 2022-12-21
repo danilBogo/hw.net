@@ -1,0 +1,24 @@
+﻿.listItems::-webkit-scrollbar {
+    display: none;
+}
+
+.listItems{
+    resize: none;
+}
+
+.userRecord{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.linkToUser{
+    text-decoration: none;
+    color: black;
+}
+
+.linkToUser:hover{
+    transition: all 0.2s ease-in-out 0s;
+    color: gray;
+}

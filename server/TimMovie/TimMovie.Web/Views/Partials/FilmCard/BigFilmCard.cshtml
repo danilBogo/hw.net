@@ -1,0 +1,67 @@
+﻿@model TimMovie.Web.ViewModels.FilmCard.BigFilmCardViewModel
+
+@{
+    var film = Model;
+    var actors = film.Actors.ToList();
+    var hasProducer = film.Producer is not null;
+}
+
+<div class="movie_card" id="movie_card">
+    <div class="info_section">
+        <a class="stretched-link" asp-controller="Film" asp-action="Film" asp-route-filmId="@film.Id"></a>
+        <div class="info_container d-flex flex-wrap justify-content-center">
+            <div class="watch_later_btn" title="Убрать из смотреть позже">
+                <button class="watch_later buttons bg-transparent border-0 p-0 m-0">
+                    <svg class="watch_later_svg"
+                         width="2.2em" height="2.2em"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="#c6c6c9">
+                        <use xlink:href="/img/svgIcons/sprite.svg#RemoveFromWatchLater"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="movie_header text-center">
+                <h2>@film.Title</h2>
+                <h4>
+                    <a class="hover_link zindex-3" asp-controller="Films" asp-action="Filters" asp-route-year="@Model.Year">@Model.Year@(hasProducer ? "," : "")</a>
+                    @if (hasProducer)
+                    {
+                        <a class="hover_link zindex-3" asp-controller="Person" asp-action="GetProducerPage" asp-route-id="@film.Producer!.Id">
+                            @film.Producer.Name @film.Producer.Surname
+                        </a>
+                    }
+                </h4>
+
+                <ul class="type">
+                    @foreach (var genre in film.Genres)
+                    {
+                        <li class="d-inline-block">&bull; <a class="hover_link zindex-3" asp-controller="Films" asp-action="Filters" asp-route-genres="@genre.Name">@genre.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="movie_desc">
+                <p class="text">
+                    @film.Description.Trim().Split("\n")[0]
+                </p>
+            </div>
+            <div class="actors d-flex align-content-center justify-content-between mb-2">
+                <a class="actor">
+                    <div id="film_rating" class="content">@film.Rating</div>
+                    <div class="caption">Рейтинг TimMovie</div>
+                </a>
+                @for (var i = 0; i < actors.Count && i < 3; i++)
+                {
+                    <a asp-controller="Person" asp-action="GetActorPage" asp-route-id="@actors[i].Id" class="actor">
+                        <div class="content">
+                            <img src="@actors[i].Photo" class="rounded-3 actor_img">
+                        </div>
+                        <div class="caption" title="@actors[i].Name @actors[i].Surname">@actors[i].Name @actors[i].Surname</div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="blur_back">
+        <img class="movie_img" src="@film.Image">
+    </div>
+</div>

@@ -1,0 +1,41 @@
+.input_dragAndDrop {
+    /*margin-top: 16px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    padding: 155px 64px;
+    border-radius: 16px;
+}
+
+.input_dragAndDrop_dropped:hover{
+    cursor: pointer;
+}
+
+.input_dragAndDrop_dropped{
+    border: 1px solid gray;
+    /*margin-top: 16px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+}
+
+
+
+.info_drugAndDrop_container {
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+}
+
+.text_drugAndDrop {
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 5px;
+}

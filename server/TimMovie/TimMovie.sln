@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimMovie.Infrastructure", "TimMovie.Infrastructure\TimMovie.Infrastructure.csproj", "{ED0BDA7D-7C28-497F-9B66-0890342C527D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimMovie.Core", "TimMovie.Core\TimMovie.Core.csproj", "{775B80D5-4543-4D6E-9F2B-EAC383D2E4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimMovie.SharedKernel", "TimMovie.SharedKernel\TimMovie.SharedKernel.csproj", "{A2D8BB17-27F4-4550-96B3-BC6E4212293B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimMovie.Web", "TimMovie.Web\TimMovie.Web.csproj", "{3FFE5B4F-7AB9-4A45-A6B1-B742218DA8BD}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TimMovie.Auth", "TimMovie.Auth\TimMovie.Auth.fsproj", "{98B65FF6-6841-429B-8D36-FDC522F46DB3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TimMovie.WebApi", "TimMovie.WebApi\TimMovie.WebApi.fsproj", "{FDA6DD23-0311-4273-92B9-58A770EA24D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesApi", "FilesApi\FilesApi.csproj", "{D00677F5-84B3-4C38-811D-937280580752}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TimMovie.WebApi.Tests", "TimMovie.WebApi.Tests\TimMovie.WebApi.Tests.fsproj", "{F5041D7B-7E49-45EF-8B06-1A761502C006}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED0BDA7D-7C28-497F-9B66-0890342C527D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0BDA7D-7C28-497F-9B66-0890342C527D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0BDA7D-7C28-497F-9B66-0890342C527D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED0BDA7D-7C28-497F-9B66-0890342C527D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775B80D5-4543-4D6E-9F2B-EAC383D2E4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775B80D5-4543-4D6E-9F2B-EAC383D2E4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775B80D5-4543-4D6E-9F2B-EAC383D2E4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775B80D5-4543-4D6E-9F2B-EAC383D2E4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2D8BB17-27F4-4550-96B3-BC6E4212293B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D8BB17-27F4-4550-96B3-BC6E4212293B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D8BB17-27F4-4550-96B3-BC6E4212293B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D8BB17-27F4-4550-96B3-BC6E4212293B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FFE5B4F-7AB9-4A45-A6B1-B742218DA8BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFE5B4F-7AB9-4A45-A6B1-B742218DA8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFE5B4F-7AB9-4A45-A6B1-B742218DA8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFE5B4F-7AB9-4A45-A6B1-B742218DA8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B65FF6-6841-429B-8D36-FDC522F46DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B65FF6-6841-429B-8D36-FDC522F46DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B65FF6-6841-429B-8D36-FDC522F46DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B65FF6-6841-429B-8D36-FDC522F46DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA6DD23-0311-4273-92B9-58A770EA24D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA6DD23-0311-4273-92B9-58A770EA24D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA6DD23-0311-4273-92B9-58A770EA24D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA6DD23-0311-4273-92B9-58A770EA24D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00677F5-84B3-4C38-811D-937280580752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00677F5-84B3-4C38-811D-937280580752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00677F5-84B3-4C38-811D-937280580752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00677F5-84B3-4C38-811D-937280580752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5041D7B-7E49-45EF-8B06-1A761502C006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5041D7B-7E49-45EF-8B06-1A761502C006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5041D7B-7E49-45EF-8B06-1A761502C006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5041D7B-7E49-45EF-8B06-1A761502C006}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

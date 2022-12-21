@@ -1,0 +1,78 @@
+﻿@model TimMovie.Web.ViewModels.User.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Профиль";
+    Layout = "_Layout";
+}
+
+
+@{
+    await Html.RenderPartialAsync("~/Views/Profile/ModalForEditUserPhoto.cshtml", Model.UserInfo.PathToPhoto);
+    await Html.RenderPartialAsync("~/Views/Profile/ModalForEditUserInfo.cshtml", (Model.UserInfo, Model.CountryNames));
+}
+<div class="d-flex flex-column">
+    <div class="d-flex mt-3">
+        @{ await Html.RenderPartialAsync("~/Views/Profile/ProfileCard.cshtml", (Model.IsOwner, Model.UserInfo, Model.FilmCards.Any())); }
+        <div class="d-flex flex-column flex-grow-1 ms-5">
+            <div class="h3">Последние просмотренные фильмы</div>
+            @if (Model.FilmCards.Any())
+            {
+                <div class="row row-cols-6 gy-3  gx-4 [ container_film_card ]">
+                    @foreach (var card in Model.FilmCards)
+                    {
+                        await Html.RenderPartialAsync("~/Views/Partials/FilmCard/FilmCard.cshtml", card);
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="d-flex align-items-center justify-content-center flex-grow-1 [ emptyFilmsInProfile ]">
+                    <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 460 460" width="2em" xml:space="preserve">
+                        <g id="XMLID_510_">
+                            <path id="XMLID_511_" d="M430,460h30V351.327c-8.415,15.951-18.438,30.933-30,44.817V460z"/>
+                            <path id="XMLID_512_" d="M230,0C102.975,0,0,102.975,0,230s102.975,230,230,230s230-102.975,230-230S357.025,0,230,0z M230,40
+        		c30.376,0,55,24.624,55,55s-24.624,55-55,55s-55-24.624-55-55S199.624,40,230,40z M46.607,188.283c0-30.376,24.624-55,55-55
+        		c30.375,0,55,24.624,55,55c0,30.375-24.625,55-55,55C71.232,243.283,46.607,218.658,46.607,188.283z M150.649,394.217
+        		c-30.375,0-55-24.624-55-55s24.625-55,55-55c30.376,0,55,24.624,55,55S181.025,394.217,150.649,394.217z M230,250
+        		c-11.046,0-20-8.954-20-20s8.954-20,20-20s20,8.954,20,20S241.046,250,230,250z M309.351,394.217c-30.376,0-55-24.624-55-55
+        		s24.624-55,55-55c30.375,0,55,24.624,55,55S339.727,394.217,309.351,394.217z M358.393,243.283c-30.375,0-55-24.625-55-55
+        		c0-30.376,24.625-55,55-55c30.376,0,55,24.624,55,55C413.393,218.658,388.768,243.283,358.393,243.283z"/>
+                        </g>
+                    </svg>
+                    <span class="ms-3">У @(Model.IsOwner ? "вас" : "данного пользователя") еще нет ни одного просмотренного фильма</span>
+                </div>
+            }
+
+        </div>
+    </div>
+    @if (Model.IsOwner)
+    {
+        await Html.RenderPartialAsync("~/Views/Profile/UserSubscribes.cshtml", Model.UserSubscribes);
+    }
+</div>
+@{
+    await Html.RenderPartialAsync("~/Views/Partials/Messages/MessageOnSave.cshtml");
+    await Html.RenderPartialAsync("~/Views/Grade/Grade.cshtml");
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="/css/Profile/Profile.css">
+    <link rel="stylesheet" href="/css/FilmCard/cardStyle.css"/>
+    <link rel="stylesheet" href="/css/SmallPageElements/loader.css">
+    <link rel="stylesheet" href="/css/Messages/MessageOnSave.css">
+    <link rel="stylesheet" href="/css/gradeModalWindow.css"/>
+}
+
+@section Scripts
+{
+    <script src="/js/FilmCard/animation_for_film_card.js"></script>
+    <script src="/js/FilmCard/adaptive_container_with_film_card.js"></script>
+    <script src="/js/Profile/profile.js"></script>
+    <script src="/js/Modals/modal_for_change_user_photo.js"></script>
+    <script src="/js/Modals/modal_for_change_user_profile.js"></script>
+    <script src="/js/svgLogic.js"></script>
+    <script src="/js/gradeModalWindow.js"></script>
+    <script src="/js/FilmCard/WatchLater.js"></script>
+}

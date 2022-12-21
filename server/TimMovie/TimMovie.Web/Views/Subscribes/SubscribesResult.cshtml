@@ -1,0 +1,81 @@
+﻿@model TimMovie.Web.ViewModels.SearchFromLayout.SearchSubscribeViewModel
+@{
+    Layout = "";
+}
+@if (Model.Subscribes is not null)
+{
+    @foreach (var subscribe in Model.Subscribes)
+    {
+        <div class="subscribeCardInSubscribeSearch col card">
+            <div class="subscribeCardInSubscribeSearch-header card-header d-flex justify-content-center">
+                @subscribe.Name
+            </div>
+            <div class="subscribeCardInSubscribeSearch-body card-body d-flex flex-column">
+                <div class="subscribeCardInSubscribeSearch-body-description">
+                    @subscribe.Description
+                </div>
+                <div class="subscribeCardInSubscribeSearch-body-buttons d-flex flex-column">
+                    @if (subscribe.Films.Any())
+                    {
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-films btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Фильмы
+                            </button>
+                            <ul class="dropdown-menu scrollable">
+                                @foreach (var film in subscribe.Films)
+                                {
+                                    <a class="dropdown-item" asp-controller="Film" asp-action="Film" asp-route-filmId="@film.Id">@film.Title</a>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if (subscribe.Genres.Any())
+                    {
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-genres btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Жанры
+                            </button>
+                            <ul class="dropdown-menu scrollable">
+                                @foreach (var genre in subscribe.Genres)
+                                {
+                                    <a class="dropdown-item" asp-controller="Films" asp-action="Filters" asp-route-genres="@genre.Name">@genre.Name</a>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="subscribeCardInSubscribeSearch-body-price d-flex">
+                    <div class="subscribeCard-name">Цена:</div>
+                    <div class="subscribeCard-price">@(subscribe.Price)р</div>
+                </div>
+                @{
+                    var hasUserSubscribe = Model.UserSubscribes?.Any(s => s.SubscribeId == subscribe.Id);
+                    <div class="subscribeCard-subscribe-active w-100 d-flex align-items-center flex-row">
+                        @if (hasUserSubscribe is not null && hasUserSubscribe.Value)
+                        {
+                            <div class="subscribeCard-subscribe-active-title">
+                                @("Действует до")
+                            </div>
+                            <div class="subscribeCard-subscribe-active-date">
+                                @Model.UserSubscribes!.FirstOrDefault(s => s.SubscribeId == subscribe.Id)?.EndDate.ToShortDateString()
+                            </div>
+                        }
+                    </div>
+                    
+                        @if (hasUserSubscribe is not null && hasUserSubscribe.Value)
+                        {
+                            <a asp-controller="SubscribePayment" asp-action="Payment" asp-route-subscribeId="@subscribe.Id" class="subscribeCardInSubscribeSearch-body-button subscribeToExtend">
+                            Продлить
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="SubscribePayment" asp-action="Payment" asp-route-subscribeId="@subscribe.Id" class="subscribeCardInSubscribeSearch-body-button subscribeToBuy">
+                                Оплатить
+                            </a>   
+                        }
+                }
+            </div>
+        </div>
+    }
+}

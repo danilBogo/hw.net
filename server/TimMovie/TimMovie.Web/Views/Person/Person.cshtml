@@ -1,0 +1,32 @@
+﻿@model TimMovie.Web.ViewModels.Person.PersonViewModel
+
+<div class="container d-flex flex-column">
+    <div class="d-flex flex-column mt-4 person_container-page">
+        <div class="d-flex flex-column">
+            <img class="person_photo" src="@Model.Photo" alt="">
+            <div class="person_name mt-3">@Model.Name @Model.Surname</div>
+        </div>
+        <div class="d-flex flex-column mt-5">
+            <div class="d-flex align-items-end person_films-title_container">
+                <div class="person_films-title">Полная фильмография</div>
+                <div class="ms-3 person_amount-films"></div>
+            </div>
+            <div class="d-flex flex-column mt-4" id="person-film-container">
+            </div>
+            <div class="mb-5 loader hide"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/js/common/inclineWord.js"></script>
+    <script src="/js/PersonPage/downloadAmountFilms.js"></script>
+     <script src="/js/PersonPage/loadMoreFilms.js"></script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="/css/Person/personPage.css">
+    <link rel="stylesheet" href="/css/FilmCard/personFilm.css">
+}
